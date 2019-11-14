@@ -1,3 +1,4 @@
+import java.util.*;
 public static int[] solution(String[] genres, int[] plays) {
     Map<String, Integer> hm = new HashMap<String, Integer>();
     for(int i=0; i<genres.length; i++) {  // 장르별 재생된 횟수를 기록
