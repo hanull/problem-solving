@@ -1,4 +1,4 @@
-package mergeTwoLists;
+package Leetcode.mergeTwoLists;
 
 import java.util.*;
 
