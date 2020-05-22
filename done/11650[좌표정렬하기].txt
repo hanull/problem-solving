@@ -1,0 +1,40 @@
+import java.util.*;
+
+public class Main {
+  public static class Pair implements Comparable<Pair>{
+    int x,y;
+    public Pair(int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
+
+    @Override
+    public int compareTo(Pair point) {
+      if(x!=point.x) {
+        return compare(x, point.x);
+      }
+      return compare(y, point.y);
+    }
+
+    public int compare(int first, int second) {
+      if(first<second) return -1;
+      else if(first>second) return 1;
+      else return 0;
+    }
+    
+  }
+  public static void main(String[] args){
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();    
+    ArrayList<Pair> list = new ArrayList<>();
+    for(int i=0; i<n; i++) {
+      int a = sc.nextInt();
+      int b = sc.nextInt();
+      list.add(new Pair(a, b));
+    }
+    Collections.sort(list);
+    for(int i=0; i<n; i++) {
+      System.out.println(list.get(i).x+" " +list.get(i).y);
+    }
+  }
+}

@@ -1,0 +1,37 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+  static int N,M,num[],out[];
+  static StringBuilder go(int idx) {
+    if(idx ==M) {
+      StringBuilder sb = new StringBuilder();
+      for(int i=0; i<M; i++) {
+        sb.append(out[i]+ " ");
+      }sb.append("\n");
+      return sb;
+    }
+    StringBuilder ans = new StringBuilder();
+    for(int i=0; i<N; i++) {
+      out[idx] = num[i];
+      ans.append(go(idx+1));
+    }
+    return ans;
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    N = Integer.parseInt(st.nextToken());
+    M = Integer.parseInt(st.nextToken());
+    num = new int[N];
+    out = new int[M];
+    st=new StringTokenizer(br.readLine());
+    for(int i=0; i<N; i++) {
+      num[i] = Integer.parseInt(st.nextToken());
+    }
+    Arrays.sort(num);
+    System.out.println(go(0));
+  }
+}

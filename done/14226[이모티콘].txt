@@ -1,0 +1,52 @@
+import java.util.*;
+
+public class Main {
+  static int s,c;
+  static int[][] con;
+  static boolean[][] check;
+  public static class Pair{
+    int x,y;
+    public Pair(int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
+  }
+  public static void bfs() {
+    Queue<Pair> q = new LinkedList<>();
+    q.add(new Pair(1, 0));
+    check[1][0] = true;
+    con[1][0]=0;
+    while(!q.isEmpty()) {
+      Pair tmp = q.poll();
+      int tx = tmp.x;
+      int ty = tmp.y;
+      if(tx==s) {
+        System.out.println(con[tx][ty]);
+        break;
+      }
+      if(check[tx][tx]==false) {
+        con[tx][tx] = con[tx][ty]+1;
+        q.add(new Pair(tx, tx));
+        check[tx][tx] = true;
+      }
+      if(tx+ty<=s&&check[tx+ty][ty]==false) {
+        con[tx+ty][ty] = con[tx][ty]+1;
+        q.add(new Pair(tx+ty, ty));
+        check[tx+ty][ty] = true;
+      }
+      if(tx-1>=0&&check[tx-1][ty]==false) {
+        con[tx-1][ty] = con[tx][ty]+1;
+        q.add(new Pair(tx-1, ty));
+        check[tx-1][ty] = true;
+      }
+    }
+  }
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    s = sc.nextInt();
+    con = new int[s+1][s+1];
+    check = new boolean[s+1][s+1];
+    bfs();
+    
+  }
+}

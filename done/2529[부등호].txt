@@ -1,0 +1,81 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int k;
+  static char[] op;
+  static int[] result;
+  public static boolean check(int[] arr) {
+    int n = op.length;
+    for(int i=0; i<n; i++) {
+      if(op[i]=='<' && arr[i]>arr[i+1]) {
+        return false;
+      }
+      else if(op[i]=='>' && arr[i]<arr[i+1]) {
+        return false;
+      }
+    }
+    return true;
+  }
+  public static void permutation(int x) {
+    int i = k;
+    if(x==1) {
+      while(result[i]>=result[i-1]) i-=1;
+    }else {
+      while(result[i]<=result[i-1]) i-=1;
+    } 
+    if(i<=0) return;
+    int j = k;
+    if(x==1) {
+      while(result[j]>=result[i-1]) j-=1;
+    }else {
+      while(result[j]<=result[i-1]) j-=1;
+    }
+    int tmp = result[i-1];
+    result[i-1] = result[j];
+    result[j] = tmp;
+    j = k;
+    while(i<j) {
+      int temp = result[j];
+      result[j] = result[i];
+      result[i] = temp;
+      i++; j--;
+    } 
+  }
+  public static void main(String[] args) throws Exception{
+    Scanner sc = new Scanner(System.in);
+    k  = sc.nextInt();
+    op = new char[k];
+    result = new int[k+1];
+    for(int i=0; i<k; i++) {
+      op[i] = sc.next().charAt(0);
+    }
+    // 최대값 구하기
+    for(int i=9; i>9-(k+1); i--) {
+      result[9-i] = i;
+    }
+    while(true) {
+      if(check(result)) {
+        for(int i=0; i<k+1; i++) {
+          System.out.print(result[i]);
+        }
+        break;
+      }
+      permutation(1);
+    }
+    System.out.println();
+    // 최소값 구하기
+    for(int i=0; i<k+1; i++) {
+      result[i] = i;
+    }
+    while(true) {
+      if(check(result)) {
+        for(int i=0; i<k+1; i++) {
+          System.out.print(result[i]);
+        }
+        break;
+      }
+      permutation(-1);
+    }
+  }
+}

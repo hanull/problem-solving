@@ -1,0 +1,24 @@
+import java.io.*;
+import java.util.*;
+
+public class Main{
+  
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int[][] arr = new int[4][2];
+    for(int i=0; i<4; i++) {
+      int a=sc.nextInt();
+      int b=sc.nextInt();
+      arr[i][0]=a;
+      arr[i][1]=b;
+    }
+    int max = Integer.MIN_VALUE;
+    int result = 0;
+    for(int i=0; i<4; i++) {
+      result-=arr[i][0];
+      result+=arr[i][1];
+      if(result>max) max=result; 
+    }
+    System.out.println(max);
+  }
+}

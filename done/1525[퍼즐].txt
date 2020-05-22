@@ -1,0 +1,58 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int[] dx = {1,-1,0,0};
+  static int[] dy= {0,0,1,-1};
+  
+  public static void bfs(int s, int goal) {
+    Queue<Integer> q = new LinkedList<>();
+    HashMap<Integer, Integer> hash = new HashMap<>();
+    q.add(s);
+    hash.put(s, 0);
+    while(!q.isEmpty()) {
+      int now = q.poll();
+      // 공백의 위치좌표 구하기
+      String now_str = Integer.toString(now);
+      int z  = now_str.indexOf('9');
+      int x = z/3;
+      int y = z%3;
+      for(int i=0; i<4; i++) {
+        int nx = x+dx[i];
+        int ny = y+dy[i];
+        if(nx>=0&&nx<3&&ny>=0&&ny<3) {
+          // 공백의 위치를 swap하여 다음 퍼즐수를 구함
+          StringBuilder next = new StringBuilder(now_str);
+          char tmp = next.charAt(x*3+y);
+          next.setCharAt(x*3+y, next.charAt(nx*3+ny));
+          next.setCharAt(nx*3+ny, tmp);
+          int next_num = Integer.parseInt(next.toString());
+          // 해쉬키값이 존재하지 않으면 큐와 해쉬에 저장.
+          if(!hash.containsKey(next_num)) {
+            q.add(next_num);
+            hash.put(next_num, hash.get(now)+1);
+          }
+        }
+      }
+    }
+    if(hash.containsKey(123456789)) {
+      System.out.println(hash.get(123456789));
+    }else {
+      System.out.println("-1");
+    }
+  }
+  
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    int start = 0;
+    for(int i=0; i<3; i++) {
+      String[] line = br.readLine().split(" ");
+      for(int j=0; j<3; j++) {
+        int tmp = Integer.parseInt(line[j]);
+        if(tmp==0) tmp=9;
+        start = start * 10 + tmp;
+      }
+    }
+    bfs(start, 123456789);
+  }
+}

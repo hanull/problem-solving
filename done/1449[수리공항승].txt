@@ -1,0 +1,26 @@
+import java.util.*;
+
+public class Main {
+  static int n,l;
+  static int[] point;
+
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    n=sc.nextInt();
+    l=sc.nextInt();
+    point=new int[n];
+    for(int i=0; i<n; i++) {
+      point[i]=sc.nextInt();
+    }
+    Arrays.sort(point);
+    int total=1;
+    int left=point[0];
+    for(int i=1; i<n; i++) {
+      if(point[i]+1-left>l) {
+        total++;
+        left=point[i];
+      }
+    }
+    System.out.println(total);
+  }
+}

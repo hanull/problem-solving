@@ -1,0 +1,32 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+// 로또
+public class Main {
+  static int k;
+  static int[] s;
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    
+    while((k = sc.nextInt())!=0) {
+      s = new int[k];
+      for(int i=0; i<k; i++) {
+        s[i] = sc.nextInt();
+      }
+      Arrays.sort(s);
+      go(0,"",0);
+      System.out.println();
+    }
+  }
+  public static void go(int cnt, String str, int index) {
+    if(cnt==6) {
+      System.out.println(str.substring(1));
+      return;
+    }else if(cnt>6) return;
+    else if(index==k) return;
+    // i번째를 선택했을때, 안했을때
+    go(cnt+1, str+" "+s[index], index+1);
+    go(cnt, str, index+1);
+  }
+  
+}

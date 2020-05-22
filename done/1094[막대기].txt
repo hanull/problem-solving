@@ -1,0 +1,15 @@
+import java.util.Scanner;
+
+public class Main {
+
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int x = sc.nextInt();
+    int result = 0;
+    while(x>0) {
+      if(x%2==1) result++;
+      x/=2;
+    }
+    System.out.println(result);
+  }
+}

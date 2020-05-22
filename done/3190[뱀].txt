@@ -1,0 +1,23 @@
+import java.util.*;
+
+public class Main {
+  static int l,p,v;
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int c=1;
+    while(true) {
+      l=sc.nextInt();
+      p=sc.nextInt();
+      v=sc.nextInt();
+      if(l==0&&p==0&&v==0) {
+        break;
+      }
+      // 나머지가 l보다 크거나 작은 경우를 모두 생각해야함.
+      int a=v/p;
+      int b=v%p;
+      int total=a*l+Math.min(b, l);
+      System.out.println("Case "+c+": "+total);
+      c++;
+    }
+  }
+}

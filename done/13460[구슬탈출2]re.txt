@@ -1,0 +1,100 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static char[][] map;
+  static boolean[][][][] visited = new boolean[10][10][10][10];
+  static int[] dx = {-1,1,0,0};
+  static int[] dy = {0,0,1,-1};
+  
+  public static int bfs(int rx, int ry, int bx, int by, int count) {
+    Queue<Pair> q = new LinkedList<>();
+    q.add(new Pair(rx, ry, bx, by, count));
+    visited[rx][ry][bx][by]=true;
+    while(!q.isEmpty()) {
+      Pair tmp = q.poll();
+      int tRx = tmp.rx;
+      int tRy = tmp.ry;
+      int tBx = tmp.bx;
+      int tBy = tmp.by;
+      int cnt = tmp.cnt;
+      if(cnt>10) {
+        return -1;
+      }
+      // 빨간구슬이 구멍에 들어가고, 파란구슬은 들어가지 않았을 때, 결과 출력
+      if(map[tRx][tRy]=='O'&&map[tBx][tBy]!='O') {
+        return cnt;
+      }
+      for(int i=0; i<4; i++) {
+        int nrx = tRx;
+        int nry = tRy;
+        int nbx = tBx;
+        int nby = tBy;
+        
+        // 빨간구슬 이동
+        while(map[nrx][nry]!='O'&&map[nrx+dx[i]][nry+dy[i]]!='#') {
+          nrx+=dx[i];
+          nry+=dy[i];
+        }
+        // 파란구슬 이동
+        while(map[nbx][nby]!='O'&&map[nbx+dx[i]][nby+dy[i]]!='#') {
+          nbx+=dx[i];
+          nby+=dy[i];
+        }
+        
+        // 만약 두 구슬의 위치가 같으면, 위치를 재배치 해준다.
+        if(nrx==nbx&&nry==nby) {
+          // 파란구슬이 구멍에 빠지면 X
+          if(map[nbx][nby]=='O') {
+            continue;
+          }
+          if(Math.abs(nrx-tRx)+Math.abs(nry-tRy)>Math.abs(nbx-tBx)+Math.abs(nby-tBy)) {
+            nrx-=dx[i];
+            nry-=dy[i];
+          }else {
+            nbx-=dx[i];
+            nby-=dy[i];
+          }
+        }
+        if(visited[nrx][nry][nbx][nby]==false) {
+          visited[nrx][nry][nbx][nby] = true;
+          q.add(new Pair(nrx, nry, nbx, nby,cnt+1));
+        }
+      }// end for() 4방향 이동
+    }
+    return -1;
+  }
+  
+  public static class Pair{
+    int rx, ry, bx, by, cnt;
+    public Pair(int rx, int ry, int bx, int by, int cnt) {
+      this.rx = rx;
+      this.ry = ry;
+      this.bx = bx;
+      this.by = by;
+      this.cnt = cnt;
+    }
+  }
+  
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String[] line = br.readLine().split(" ");
+    int n = Integer.parseInt(line[0]);
+    int m = Integer.parseInt(line[1]);
+    map = new char[n][m];
+    int rx=0; int ry=0; int bx=0; int by=0;
+    for(int i=0; i<n; i++) {
+      String line2 = br.readLine();
+      for(int j=0; j<m; j++) {
+        map[i][j] = line2.charAt(j);
+        if(map[i][j]=='R') {
+          rx=i; ry=j;
+        }else if(map[i][j]=='B') {
+          bx=i; by=j;
+        }
+      }
+    }
+    int result = bfs(rx,ry,bx,by,0);
+    System.out.println(result);
+  }
+}

@@ -1,0 +1,66 @@
+import java.util.Scanner;
+
+public class Main {
+  static int[][] input;
+  static int N,M;
+  // (0,0) 을 기준으로 모든 블럭의 모양 입력 : 총19가지
+  static int [][][] block ={
+      {{0,1}, {0,2}, {0,3}},
+      {{1,0}, {2,0}, {3,0}},
+      {{1,0}, {1,1}, {1,2}},
+      {{0,1}, {1,0}, {2,0}},
+      {{0,1}, {0,2}, {1,2}},
+      {{1,0}, {2,0}, {2,-1}},
+      {{0,1}, {0,2}, {-1,2}},
+      {{1,0}, {2,0}, {2,1}},
+      {{0,1}, {0,2}, {1,0}},
+      {{0,1}, {1,1}, {2,1}},
+      {{0,1}, {1,0}, {1,1}},
+      {{0,1}, {-1,1}, {-1,2}},
+      {{1,0}, {1,1}, {2,1}},
+      {{0,1}, {1,1}, {1,2}},
+      {{1,0}, {1,-1}, {2,-1}},
+      {{0,1}, {0,2}, {-1,1}},
+      {{0,1}, {0,2}, {1,1}},
+      {{1,0}, {2,0}, {1,1}},
+      {{1,0}, {2,0}, {1,-1}},
+  };
+  
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    N = sc.nextInt();
+    M = sc.nextInt();
+    input = new int[N][M];
+    
+    
+    // input
+    for(int i=0; i<N; i++) {
+      for(int j=0; j<M; j++) {
+        input[i][j] = sc.nextInt();
+      }
+    }
+    
+    // 19가지 경우 비교하면서 최대합 구하기    
+    int hap=0;
+    for(int i=0; i<N; i++) {
+      for(int j=0; j<M; j++) {
+        out:for(int k=0; k<19; k++) {
+           int temp=input[i][j];  // 시작좌표
+           // (i,j)좌표에서 추가되는 3가지 블럭의 좌표가 N,M 보다 크면 안됨
+           // 나머지 3개의 블럭좌표 
+           for(int l=0; l<3; l++) {
+             int x = i+block[k][l][0];
+             int y = j+block[k][l][1];
+             if(0<=x&&x<N && 0<=y&&y<M) {
+               temp+=input[x][y];
+             }else {
+               continue out;
+             }
+           }
+           if(temp>hap) hap = temp;
+         }
+      }
+    }
+    System.out.println(hap);
+  }
+}

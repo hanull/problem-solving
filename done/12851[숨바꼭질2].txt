@@ -1,0 +1,64 @@
+import java.util.*;
+
+public class Main {
+  static boolean[] visited;
+  static int[] d;
+  static int[] cnt;
+  public static void bfs(int x, int goal) {
+    Queue<Integer> q = new LinkedList<>();
+    q.add(x);
+    visited[x] = true;
+    d[x] = 0; cnt[x]=1;
+    while(!q.isEmpty()) {
+      int now = q.poll();
+      
+      int next = now-1;
+      if(next>=0) {
+        if(visited[next]==false) {
+          q.add(next); 
+          visited[next] = true;
+          d[next] = d[now]+1;
+          cnt[next] = cnt[now];
+        }else if(d[next]==d[now]+1) {
+          cnt[next] += cnt[now];
+        }
+      }
+      next = now+1;
+      if(next<=100000) {
+        if(visited[next]==false) {
+          q.add(next); 
+          visited[next] = true;
+          d[next] = d[now]+1;
+          cnt[next] = cnt[now];
+        }else if(d[next]==d[now]+1) {
+          cnt[next] += cnt[now];
+        }
+      }
+      next = now*2;
+      if(next<=100000) {
+        if(visited[next]==false) {
+          q.add(next); 
+          visited[next] = true;
+          d[next] = d[now]+1;
+          cnt[next] = cnt[now];
+        }else if(d[next]==d[now]+1) {
+          cnt[next] += cnt[now];
+        }
+      }
+      
+    }
+    System.out.println(d[goal]);
+    System.out.println(cnt[goal]);
+  }
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int N = sc.nextInt();
+    int K = sc.nextInt();
+    visited = new boolean[100001];
+    cnt = new int[100001];
+    d = new int[100001];
+    bfs(N,K);
+
+  }
+
+}

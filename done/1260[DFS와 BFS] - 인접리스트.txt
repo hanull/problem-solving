@@ -1,0 +1,60 @@
+import java.util.*;
+
+public class Main {
+  static int N,M,V;
+  static ArrayList<Integer>[] con;
+  static boolean[] check;
+  public static void dfs(int s) {
+    check[s] = true;
+    System.out.print(s+" ");
+    for(int i=0; i<con[s].size(); i++) {
+      int y = con[s].get(i);
+      if(check[y]==false) {
+        dfs(y);
+      }
+    }
+  }
+  public static void bfs(int s) {
+    Queue<Integer> q = new LinkedList<Integer>();
+    q.add(s);
+    check[s] = true;
+    while(!q.isEmpty()) {
+      int node = q.poll();
+      System.out.print(node+" ");
+      for(int i=0; i<con[node].size(); i++) {
+        int y = con[node].get(i);
+        if(check[y]==false) {
+          check[y]=true;
+          q.add(y);
+        }
+      }
+    }
+  }
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    N = sc.nextInt();
+    M = sc.nextInt();
+    V = sc.nextInt();
+    con = new ArrayList[N+1];
+    
+    for(int i=1; i<=N; i++) {
+      con[i] = new ArrayList<Integer>();
+    }
+    for(int i=0; i<M; i++) {
+      int a = sc.nextInt();
+      int b = sc.nextInt();
+      con[a].add(b);
+      con[b].add(a);
+    }
+    for(int i=1; i<=N; i++) {
+      Collections.sort(con[i]);
+    }
+    
+    check = new boolean[N+1];
+    dfs(V);
+    System.out.println();
+    check = new boolean[N+1];
+    bfs(V);
+    System.out.println();
+  } 
+}

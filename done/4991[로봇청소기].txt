@@ -1,0 +1,122 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int[] dx = {1,-1,0,0};
+  static int[] dy = {0,0,1,-1};
+  
+  public static int[][] bfs(char[][] map, int n, int m, int x, int y) {
+    int[][] dist = new int[n][m];
+    for(int i=0; i<n; i++) {
+      for(int j=0; j<m; j++) {
+        dist[i][j] = -1;
+      }
+    }
+    Queue<Pair> q = new LinkedList<>();
+    q.add(new Pair(x,y));
+    dist[x][y] = 0;
+    while(!q.isEmpty()) {
+      Pair tmp = q.poll();
+      int tx = tmp.x;
+      int ty = tmp.y;
+      for(int i=0; i<4; i++) {
+        int nx = tx + dx[i];
+        int ny = ty + dy[i];
+        if(nx<0||nx>=n||ny<0||ny>=m) continue;
+        if(map[nx][ny]=='x') continue;
+        if(dist[nx][ny]!=-1) continue;
+        q.add(new Pair(nx, ny));
+        dist[nx][ny] = dist[tx][ty] + 1;
+      }
+    }
+    return dist;
+  }
+
+  public static boolean next_permutation(int[] dirty) {
+    int i = dirty.length -1;
+    while(i>0&&dirty[i-1]>=dirty[i]) {
+      i-=1;
+    }
+    if(i<=0) {
+      return false;
+    }
+    int j = dirty.length - 1;
+    while(dirty[i-1]>=dirty[j]) {
+      j-=1;
+    }
+    int tmp = dirty[i-1];
+    dirty[i-1] = dirty[j];
+    dirty[j] = tmp;
+    
+    j = dirty.length - 1;
+    while(i<j) {
+      int temp = dirty[i];
+      dirty[i] = dirty[j];
+      dirty[j] = temp;
+      i++; j--;
+    }
+    return true;
+  }
+  
+  public static class Pair{
+    int x,y;
+    public Pair(int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    while(true) {
+      String[] line = br.readLine().split(" ");
+      int w = Integer.parseInt(line[0]);
+      int h = Integer.parseInt(line[1]);
+      if(w==0&&h==0) break;
+      char[][] map = new char[h][w];
+      ArrayList<Pair> arr = new ArrayList<>();
+      arr.add(new Pair(0, 0));
+      for(int i=0; i<h; i++) {
+        String str = br.readLine();
+        for(int j=0; j<w; j++) {
+          map[i][j] = str.charAt(j);
+          if(map[i][j]=='o') {
+            arr.set(0, new Pair(i, j));
+          }else if(map[i][j]=='*') {
+            arr.add(new Pair(i, j));
+          }
+        }
+      }
+      // 각 칸으로 이동하는 거리를 미리 입력.
+      int len = arr.size();
+      int[][] dist = new int[len][len];
+      boolean check = true;
+      for(int i=0; i<len; i++) {
+        int[][] d = bfs(map, h, w, arr.get(i).x, arr.get(i).y);
+        for(int j=0; j<len; j++) {
+          dist[i][j] = d[arr.get(j).x][arr.get(j).y];
+          if(dist[i][j]==-1) check = false;
+        }
+      }
+      if(check==false) {
+        System.out.println("-1");
+        continue;
+      }
+      int[] dirty = new int[len-1]; // 더러운 칸만 저장.
+      for(int i=0; i<len-1; i++) {     // next_permutation을 사용하기 위해 1,2,3.. 으로 저장
+        dirty[i] = i+1;
+      }
+      
+      // next_permutation
+      int result = Integer.MAX_VALUE;
+      do {
+        int now = dist[0][dirty[0]]; // 로봇 시작위치에서 첫번째 더러운칸으로 이동하는 거리
+        for(int i=0; i<len-2; i++) {
+          now += dist[dirty[i]][dirty[i+1]];
+        }
+        if(now<result) result = now;
+      }while(next_permutation(dirty));
+      System.out.println(result);
+      
+    }// end tastcase();
+  }
+}

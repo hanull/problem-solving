@@ -1,0 +1,22 @@
+import java.util.Scanner;
+
+public class Main {
+  
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    int m = sc.nextInt();
+    int[] arr = new int[n+1];
+    arr[0]=0;
+    for(int t=1; t<=n; t++) {
+      arr[t] = sc.nextInt();
+      arr[t]+=arr[t-1];
+    }
+    while(m-->0) {
+      int a=sc.nextInt();
+      int b=sc.nextInt();
+      System.out.println(arr[b]-arr[a-1]);
+    }
+    
+  }
+}

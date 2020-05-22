@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+public class Main{
+
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int[] arr = new int[10];
+    int a = sc.nextInt();
+    int b = sc.nextInt();
+    int c = sc.nextInt();
+    String total = String.valueOf(a*b*c);
+    int len = total.length();
+    for(int i=0; i<len; i++) {
+      int k = total.charAt(i)-48;
+      arr[k] = arr[k]+1;
+    }
+    for(int i=0; i<10; i++) {
+      System.out.println(arr[i]);
+    }
+  }
+}

@@ -1,0 +1,65 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int v,e;
+  static int startv;
+  static int[] dist;
+  static ArrayList<ArrayList<Pair>> list=new ArrayList<>();
+  
+  public static void solve() {
+    PriorityQueue<Pair> pq = new PriorityQueue<>();
+    dist[startv]=0;
+    pq.add(new Pair(startv, 0));
+    while(!pq.isEmpty()) {
+      Pair tmp = pq.poll();
+      int cur=tmp.point;
+      for(Pair node : list.get(cur)) {
+        if(dist[node.point]>node.weight+dist[cur]) {
+          dist[node.point]=node.weight+dist[cur];
+          pq.add(new Pair(node.point, node.weight+dist[cur]));
+        }
+      }
+    }
+  }
+  
+  public static class Pair implements Comparable<Pair>{
+    int point,weight;
+    public Pair(int point, int weight) {
+      this.point=point;
+      this.weight=weight;
+    }
+    @Override
+    public int compareTo(Pair o) {
+      return Integer.compare(weight,o.weight);
+    }
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    v=Integer.parseInt(st.nextToken());
+    e=Integer.parseInt(st.nextToken());
+    startv=Integer.parseInt(br.readLine())-1;
+    dist=new int[v];
+    Arrays.fill(dist, Integer.MAX_VALUE);
+    for(int i=0; i<v; i++) {
+      list.add(new ArrayList<>());
+    }
+    for(int i=0; i<e; i++) {
+      st=new StringTokenizer(br.readLine());
+      int x = Integer.parseInt(st.nextToken())-1;
+      int y = Integer.parseInt(st.nextToken())-1;
+      int w = Integer.parseInt(st.nextToken());
+      list.get(x).add(new Pair(y, w));
+    }
+    solve();
+    for(int i=0; i<v; i++) {
+      if(dist[i]==Integer.MAX_VALUE) {
+        System.out.println("INF");
+      }else {
+        System.out.println(dist[i]);
+      }
+      
+    }
+  }
+}

@@ -1,0 +1,117 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static char[][] map;
+  static boolean[][][][] visited = new boolean[10][10][10][10];
+  static int[] dx = {1,-1,0,0};
+  static int[] dy = {0,0,1,-1};
+  
+  public static void bfs(int ax, int ay, int sx, int sy) {
+    Queue<Pair> q = new LinkedList<>();
+    q.add(new Pair(ax, ay, sx, sy,0));
+    visited[ax][ay][sx][sy] = true;
+    while(!q.isEmpty()) {
+      Pair tmp = q.poll();
+      int drx = tmp.rx; 
+      int dry = tmp.ry;
+      int dbx = tmp.bx;
+      int dby = tmp.by;
+      int cnt = tmp.cnt;
+      
+      // 10이하로 답이 나오지 않는다면 "-1" 출력
+      if(cnt>10) {
+        System.out.println("-1");
+        return;
+      }
+      
+      // 빨간공이 구멍에 들어가고 파랑공이 구멍에 없을때, 결과 출력!
+      if(map[drx][dry]=='O'&&map[dbx][dby]!='O') {
+        System.out.println(cnt);
+        return;
+      }
+      
+      for(int i=0; i<4; i++) {
+        int nrx = drx; 
+        int nry = dry;
+        int nbx = dbx; 
+        int nby = dby;
+        
+        // 빨간공을 벽('#') 또는 구멍('0') 까지 이동
+        while(map[nrx+dx[i]][nry+dy[i]]!='#'&&map[nrx][nry]!='O') {
+          nrx+=dx[i];
+          nry+=dy[i];
+        }
+        
+        // 파란공을 벽('#') 또는 구멍('0') 까지 이동
+        while(map[nbx+dx[i]][nby+dy[i]]!='#'&&map[nbx][nby]!='O') {
+          nbx+=dx[i];
+          nby+=dy[i];
+        }
+        
+        // 두 공이 서로 같은 위치에 있을 때
+        // 각 공의 이동거리를 구해서 공의 위치를 조정해준다. 
+        // 아래, 위, 오른쪽, 왼쪽 순서
+        if(nrx==nbx && nry==nby) {
+       // 두 공 모두 구멍에 들어가면 안됨.
+          if(map[nrx][nry]=='O') continue;
+          switch (i) {
+            case 0:
+              if(drx>dbx) nbx--;
+              else nrx--;
+              break;
+            case 1:
+              if(drx>dbx) nrx++;
+              else nbx++;
+              break;
+            case 2:
+              if(dry>dby) nby--;
+              else nry--;
+              break;
+            default:
+              if(dry>dby) nry++;
+              else nby++;
+              break;
+          }
+        }
+        if(visited[nrx][nry][nbx][nby]) continue;
+        q.add(new Pair(nrx, nry, nbx, nby, cnt+1));
+        visited[nrx][nry][nbx][nby] = true;
+      }
+    }
+    System.out.println("-1");
+  }// end bfs();
+  
+  public static class Pair{
+    int rx,ry,bx,by,cnt;
+    public Pair(int rx, int ry, int bx, int by, int cnt) {
+      this.rx = rx;
+      this.ry = ry;
+      this.bx = bx;
+      this.by = by;
+      this.cnt = cnt;
+    }
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String[] str = br.readLine().split(" ");
+    int n = Integer.parseInt(str[0]);
+    int m = Integer.parseInt(str[1]);
+    map = new char[n][m];
+    int rx=0,ry=0,bx=0,by=0;
+    for(int i=0; i<n; i++) {
+      String line = br.readLine();
+      for(int j=0; j<m; j++) {
+        map[i][j] = line.charAt(j);
+        if(map[i][j]=='R') {
+          rx=i; ry=j;
+        }
+        if(map[i][j]=='B') {
+          bx=i; by=j;
+        }
+      }
+    }
+    bfs(rx,ry,bx,by);
+    
+  }
+}

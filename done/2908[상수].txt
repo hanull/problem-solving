@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+public class Main {
+  static int[] dx = {1,10,100};
+  public static int go(String str) {
+    int result =0;
+    for(int i=0; i<3; i++) {
+      int tmp = str.charAt(i)-'0';
+      result += tmp*dx[i];
+    }
+    return result;
+  }
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    String a = sc.next();
+    String b = sc.next();
+    int num1 = go(a);
+    int num2 = go(b);
+    if(num1>num2) {
+      System.out.println(num1);
+    }else {
+      System.out.println(num2);
+    }
+  }
+}

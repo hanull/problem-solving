@@ -1,0 +1,60 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int n,m;
+  static int[][] map;
+  static int[] dx= {-1,1,0,0};
+  static int[] dy= {0,0,1,-1};
+  static boolean[][] visited;
+  static int min=Integer.MAX_VALUE;
+  
+  public static void bfs() {
+    Queue<Pair> q = new LinkedList<>();
+    q.add(new Pair(0, 0,0));
+    visited[0][0]=true;
+    while(!q.isEmpty()) {
+      Pair tmp = q.poll();
+      int tx=tmp.x;
+      int ty=tmp.y;
+      int cnt=tmp.cnt;
+      if(tx==n-1&&ty==m-1) {
+        if(cnt<min) min=cnt;
+        return;
+      }
+      for(int i=0; i<4; i++) {
+        int nx=tx+dx[i];
+        int ny=ty+dy[i];
+        if(nx<0||nx>n-1||ny<0||ny>m-1) continue;
+        if(visited[nx][ny]) continue;
+        if(map[nx][ny]==0) continue;
+        q.add(new Pair(nx, ny, cnt+1));
+        visited[nx][ny]=true;
+      }
+    }
+  }
+  public static class Pair{
+    int x, y, cnt;
+    public Pair(int x, int y, int cnt) {
+      this.x=x;
+      this.y=y;
+      this.cnt=cnt;
+    }
+  }
+  public static void main(String[] args) throws IOException{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st =new StringTokenizer(br.readLine());
+    n=Integer.parseInt(st.nextToken());
+    m=Integer.parseInt(st.nextToken());
+    map=new int[n][m];
+    visited=new boolean[n][m];
+    for(int i=0; i<n; i++) {
+      String[] line=br.readLine().split("");
+      for(int j=0; j<m; j++) {
+        map[i][j]=Integer.parseInt(line[j]);
+      }
+    }
+    bfs();
+    System.out.println(min+1);
+  }
+}

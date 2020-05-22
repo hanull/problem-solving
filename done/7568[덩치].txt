@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class Main {
+  public static class Pair{
+    int x, y;
+    public Pair(int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
+  }
+  public static void main(String[] args){
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    ArrayList<Pair> list = new ArrayList();
+    for(int i=0; i<n; i++) {
+      int a = sc.nextInt();
+      int b = sc.nextInt();
+      list.add(new Pair(a, b));
+    }
+    int[] result = new int[n];
+    for(int i=0; i<n; i++) {
+      int a = list.get(i).x;
+      int b = list.get(i).y;
+      for(int j=0; j<n; j++) {
+        int p = list.get(j).x;
+        int q = list.get(j).y;
+        if(a<p&&b<q) {
+          result[i] +=1;
+        }
+      }
+    }
+    for(int i=0; i<n; i++) {
+      System.out.print(result[i]+1+" ");
+    }
+  }
+}

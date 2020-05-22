@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class Main {
+  static int N;
+  static int[][] arr , result;
+  static boolean[] visited;
+  public static void dfs(int x) {
+    for(int i=0; i<N; i++) {
+      if(arr[x][i]==1&&visited[i]==false) {
+        visited[i] = true;
+        dfs(i);
+      }
+    }
+  }
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    N = sc.nextInt();
+    arr = new int[N][N];
+    result= new int[N][N];
+    visited = new boolean[N];
+    for(int i=0; i<N; i++) {
+      for(int j =0; j <N; j++) {
+        arr[i][j] = sc.nextInt();
+      }
+    }
+    for(int i=0; i<N; i++) {
+      dfs(i);
+      for(int j=0; j<N; j++) {
+        if(visited[j]) {
+          result[i][j]=1;
+        }
+      }
+      Arrays.fill(visited, false);
+    }
+    for(int i=0; i<N; i++) {
+      for(int j=0; j<N; j++) {
+        System.out.print(result[i][j]+" ");
+      }
+      System.out.println();
+    }
+  }
+}

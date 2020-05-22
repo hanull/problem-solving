@@ -1,0 +1,23 @@
+import java.util.Scanner;
+
+public class Main {
+  static int E,S,M;
+  static int e,s,m;
+  public static void main(String[] args){
+    Scanner sc = new Scanner(System.in);
+    E = sc.nextInt();
+    S = sc.nextInt();
+    M = sc.nextInt();
+    e=s=m=1;
+    for(int i=1;; i++) {
+      if(E==e&&S==s&&M==m) {
+        System.out.println(i);
+        break;
+      }
+      e++; s++; m++;
+      if(e==16) e=1;
+      if(s==29) s=1;
+      if(m==20) m=1;
+    }
+  }
+}

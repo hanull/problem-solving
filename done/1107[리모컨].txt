@@ -1,0 +1,42 @@
+import java.util.Scanner;
+
+public class Main {
+  static int N, t;
+  static boolean[] broken = new boolean[10];
+  static int result;
+  public static int check(int x) {
+    int press=0;
+    if(x==0) {
+      if(broken[0]) return 0;
+      else return 1;
+    }
+    while(x>0) {
+      if(broken[x%10]) return 0;
+      x/=10;
+      press++;
+    }
+    return press;
+  }  
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    N = sc.nextInt();
+     t = sc.nextInt();
+     for(int i=0; i<t; i++) {
+       int x = sc.nextInt();
+       broken[x] = true;
+     } 
+     
+    // 0~1000000 까지의 숫자 중 이동 불가능한 숫자 찾기.
+    result = Math.abs(N-100);       // +,- 만을 이용해서 이동하는 횟수
+    for(int i=0; i<=1000000; i++) {
+      int press = check(i);
+      if(press>0) {
+        int tmp = Math.abs(i-N)+press;
+        if(tmp<result) {
+          result = tmp;
+        }
+      }
+    }
+    System.out.println(result);
+  }
+}

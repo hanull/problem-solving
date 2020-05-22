@@ -1,0 +1,54 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  static int N,K;
+  static boolean[] check;
+  static int[] result;
+  public static void bfs(int start, int goal) {
+    Queue<Integer> q = new LinkedList<>();
+    Queue<Integer> next_q = new LinkedList<>();
+    q.add(start);
+    check[start]=true;
+    result[start]=0;
+    while(!q.isEmpty()) {
+      int tmp = q.poll();
+      if(tmp*2<=100000) {
+        if(check[tmp*2]==false) {
+          q.add(tmp*2);
+          check[tmp*2]=true;
+          result[tmp*2]=result[tmp];
+        }
+      }
+      if(tmp-1>=0) {
+        if(check[tmp-1]==false) {
+          next_q.add(tmp-1);
+          check[tmp-1]=true;
+          result[tmp-1]=result[tmp]+1;
+        }
+      }
+      if(tmp+1<=100000) {
+        if(check[tmp+1]==false) {
+          next_q.add(tmp+1);
+          check[tmp+1]=true;
+          result[tmp+1]=result[tmp]+1;
+        }
+      }
+      if(q.isEmpty()) {
+        q = next_q;
+        next_q = new LinkedList<>();
+      }
+    }
+    System.out.println(result[K]);
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String[] line = br.readLine().split(" "); 
+    N = Integer.parseInt(line[0]);
+    K = Integer.parseInt(line[1]);
+    check = new boolean[100001];
+    result = new int[100001];
+    bfs(N,K);
+  }
+
+}

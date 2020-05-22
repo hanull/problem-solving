@@ -1,0 +1,43 @@
+import java.util.Scanner;
+
+public class Main {
+  static int n, result;
+  static boolean[] check_col, check_dig1, check_dig2;
+  
+  // 0행부터 n행까지 돌며 각 행 어느열에 퀸을 놓을지 결정.
+  public static void dfs(int row) {
+    if(row==n) {
+      result++;
+      return;
+    }
+    for(int c=0; c<n; c++) {
+      if(isPossible(row,c)) {
+        check_col[c] = true;
+        check_dig1[row+c] = true;
+        check_dig2[row-c+n] = true;
+        dfs(row+1);
+        check_col[c] = false;
+        check_dig1[row+c] = false;
+        check_dig2[row-c+n] = false;
+      }
+    }
+  }
+  public static boolean isPossible(int row, int c) {
+    // 열에 퀸이 있는지 확인.
+    if(check_col[c]) return false;
+    // 오른쪽 대각선
+    if(check_dig1[row+c]) return false;
+    // 왼쪽 대각선
+    if(check_dig2[row-c+n]) return false;
+    return true;
+  }
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    n = sc.nextInt();
+    check_col = new boolean[n];
+    check_dig1 = new boolean[n*2];
+    check_dig2 = new boolean[n*2];
+    dfs(0);
+    System.out.println(result);
+  }
+}

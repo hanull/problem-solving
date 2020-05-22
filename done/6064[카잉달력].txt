@@ -1,0 +1,31 @@
+import java.util.*;
+import java.io.*;
+public class Main {
+  public static void main(String[] args) throws Exception{
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      int t = Integer.parseInt(br.readLine());
+      StringBuilder sb = new StringBuilder();
+      for(int i=0; i<t; i++) {
+        String[] line = br.readLine().split(" ");
+        int M = Integer.parseInt(line[0]); int N = Integer.parseInt(line[1]); 
+        int X = Integer.parseInt(line[2])-1; int Y= Integer.parseInt(line[3])-1;
+        int result=0;
+        boolean ok = false;
+        // x를 고정한 뒤, 만족하는 y를 찾는다. => N번만 반복하면 된다. O(N) 
+        for(int a=X; a<(M*N); a+=M) {
+          int y = a%N;
+          if(y==Y) {
+            result = a+1;
+            ok = true;
+            break;
+          }
+        }
+        if(ok) {
+          sb.append(result+"\n");
+        }else {
+          sb.append(-1+"\n");
+        }
+      }
+      System.out.print(sb);
+  }
+}

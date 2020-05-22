@@ -1,0 +1,14 @@
+import java.util.Scanner;
+
+public class Main {
+
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    String str = sc.next();
+    String[] croa = {"c=","c-","dz=","d-","lj","nj","s=","z="};
+    for(int i=0; i<8; i++) {
+      str = str.replaceAll(croa[i], "c");
+    }
+    System.out.println(str.length());
+  }
+}

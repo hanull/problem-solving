@@ -1,0 +1,59 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static ArrayList<Integer>[] con;
+  static boolean[] check;
+  static int[] color;
+  public static void dfs(int s, int c) {
+    check[s] = true;
+    color[s] = c;
+    for(int i=0; i<con[s].size(); i++) {
+      int y = con[s].get(i);
+      if(check[y]==false) {
+        dfs(y,3-c);
+      }
+    }
+  }
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    int tcase = Integer.parseInt(br.readLine());
+    for(int t=0; t<tcase; t++) {
+      String[] line = br.readLine().split(" ");
+      int v = Integer.parseInt(line[0]);
+      int e = Integer.parseInt(line[1]);
+      con = new ArrayList[v+1];
+      for(int i=1; i<=v; i++) {
+        con[i] = new ArrayList<>();
+      }
+      for(int i=0; i<e; i++) {
+        String[] line2 = br.readLine().split(" ");
+        int a = Integer.parseInt(line2[0]);
+        int b = Integer.parseInt(line2[1]);
+        con[a].add(b);
+        con[b].add(a);
+      }
+      check = new boolean[v+1];
+      color = new int[v+1];
+      for(int i=1; i<=v; i++) {
+        if(check[i]==false) {
+          dfs(i,1);
+        }
+      }
+      boolean ok = true;
+      for(int i=1; i<=v; i++) {
+        for(int j=0; j<con[i].size(); j++) {
+          int y = con[i].get(j);
+          if(color[i]==color[y]) {
+            ok = false;
+          }
+        }
+      }
+      if(ok==true) {
+        System.out.println("YES");
+      }else{
+        System.out.println("NO");
+      }
+    }
+  }
+}

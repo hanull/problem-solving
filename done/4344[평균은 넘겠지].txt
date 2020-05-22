@@ -1,0 +1,29 @@
+import java.io.*;
+
+public class Main {
+  static int C, N;
+  static int[] num;
+  static double[] result;
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    C = Integer.parseInt(br.readLine());
+    result = new double[C];
+    for(int i=0; i<C; i++) {
+      String[] line = br.readLine().split(" ");
+      int t = Integer.parseInt(line[0]);
+      num = new int[t];
+      int total = 0; float av = 0;
+      for(int j=0; j<t; j++) {
+        num[j] = Integer.parseInt(line[j+1]);
+        total += num[j];
+      }
+      av = total/t;
+      int cnt = 0;
+      for(int j=0; j<t; j++) {
+        if(num[j]>av) cnt++;
+      }
+      result[i] = (double)cnt/t*100;
+      System.out.println(String.format("%.3f%c",result[i],'%'));
+    }
+  }
+}

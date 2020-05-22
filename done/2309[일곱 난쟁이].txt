@@ -1,0 +1,50 @@
+import java.util.*;
+
+public class Main {
+  static int[] arr;
+  public static boolean next_permutation() {
+    int i = arr.length-1;
+    while(i>0&&arr[i]<=arr[i-1]) {
+      i--;
+    }
+    if(i<=0) {
+      return false;
+    }
+    int j = arr.length-1;
+    while(arr[i-1]>=arr[j]) {
+      j--;
+    }
+    int temp = arr[j];
+    arr[j] = arr[i-1];
+    arr[i-1] = temp;
+    j = arr.length-1;
+    while(i<j) {
+      int tmp = arr[j];
+      arr[j] = arr[i];
+      arr[i] = tmp;
+      i++; j--;
+    }
+    return true;
+  }
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    arr = new int[9];
+    for(int i=0; i<9; i++) {
+      arr[i] = sc.nextInt();
+    }
+    Arrays.sort(arr);
+    do {
+      int num = 0;
+      for(int i=0; i<7; i++) {
+        num+=arr[i];
+      }
+      if(num==100) {
+        for(int i=0; i<7; i++) {
+          System.out.println(arr[i]);
+        }
+        break;
+      }
+    }while(next_permutation());
+    
+  }
+}

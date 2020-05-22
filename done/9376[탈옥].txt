@@ -1,0 +1,102 @@
+import java.io.*;
+import java.util.*;
+
+public class Main{
+  static int[] dx= {1,-1,0,0};
+  static int[] dy= {0,0,1,-1};
+  
+  public static int[][] bfs(String[] arr, int x, int y) {
+    int n = arr.length;
+    int m = arr[0].length();
+    boolean[][] check = new boolean[n][m];
+    int[][] d = new int[n][m];
+    ArrayDeque<Pair> que = new ArrayDeque<>();
+    que.add(new Pair(x, y));
+    d[x][y] = 0;
+    check[x][y] = true;
+    while(!que.isEmpty()) {
+      Pair tmp = que.poll();
+      int tx = tmp.x;
+      int ty = tmp.y;
+      for(int i=0; i<4; i++) {
+        int nx = tx + dx[i];
+        int ny = ty + dy[i];
+        if(nx<0||nx>=n||ny<0||ny>=m) continue;
+        if(check[nx][ny]==true) continue;
+        char c = arr[nx].charAt(ny);
+        if(c=='*') continue;
+        if(c=='#') {
+          d[nx][ny] = d[tx][ty] + 1;
+          check[nx][ny] = true;
+          que.addLast(new Pair(nx, ny));
+        }else {
+          d[nx][ny] = d[tx][ty];
+          check[nx][ny] = true;
+          que.addFirst(new Pair(nx, ny));
+        }
+      }
+    }
+    return d;
+  }
+  
+  public static class Pair{
+    int x, y;
+    public Pair(int x, int y) {
+      this.x =x ;
+      this.y = y;
+    }
+  }
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    int t = Integer.parseInt(br.readLine());
+    while(t-->0) {
+      String[] line = br.readLine().split(" ");
+      int h = Integer.parseInt(line[0]);
+      int w = Integer.parseInt(line[1]);
+      // 가장자리를 빈 공간('.')으로 채움.
+      String[] str = new String[h+2];
+      for(int i=1; i<=h; i++) {
+        str[i] = br.readLine();
+        str[i] = "."+str[i]+".";
+      }
+      str[0]=str[h+1]="";
+      for(int i=0; i<w+2; i++) {
+        str[0] += ".";
+        str[h+1] += ".";
+      }
+      // 죄수의 위치 저장.
+      int x1=-1; int y1=-1; int x2=-1; int y2=-1;
+      for(int i=0; i<h+2; i++) {
+        for(int j=0; j<w+2; j++) {
+          if(str[i].charAt(j)=='$') {
+            if(x1==-1) {
+              x1 = i; 
+              y1 = j;
+            }else {
+              x2 = i ; 
+              y2 = j;
+            }
+          }
+        }
+      }
+      
+      int[][] dist0 = bfs(str, 0,0);
+      int[][] dist1 = bfs(str, x1,y1);
+      int[][] dist2 = bfs(str, x2,y2);
+      
+      
+      // 3개의 경우를 더한다. 가장 작은 값이 만나는 위치가 된다. 따라서 그곳이 문을 여는 최솟값이다.
+      int min = Integer.MAX_VALUE;
+      for(int i=0; i<h+2; i++) {
+        for(int j=0; j<w+2; j++) {
+          char c = str[i].charAt(j);
+          if(c=='*') continue;
+          int tmp = dist0[i][j] + dist1[i][j] + dist2[i][j];
+          if(c=='#') tmp -=2;
+          if(min>tmp) min = tmp;
+        }
+      }
+      System.out.println(min);
+    }// end testcase();
+  }
+}

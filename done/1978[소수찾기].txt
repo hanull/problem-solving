@@ -1,0 +1,39 @@
+import java.util.Scanner;
+
+// 1000이하의 소수찾기
+
+public class Main {
+  static int n;
+  static boolean[] primeN;
+  static int[] arr;
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    n = sc.nextInt();
+    arr = new int[n];
+    primeN = new boolean[1001];
+    
+    // 1000까지 소수를 미리 구해서 저장.
+    // false:소수, true:소수아님.
+    int cnt=2;
+    primeN[0]=true; primeN[1]=true;
+    while(cnt<=1000) {
+      if(primeN[cnt]==false) {
+        for(int i=cnt*cnt; i<=1000; i+=cnt) {
+          primeN[i]=true;
+        }
+      }
+      cnt++;
+    }
+
+      // 주어지는 수
+      for(int i=0; i<n; i++) {
+        arr[i] = sc.nextInt();
+      }
+      // 주어진 수에서 소수 갯수 구하기
+      int total= 0; 
+      for(int i=0; i<arr.length; i++) {
+        if(primeN[arr[i]]== false) total+=1;
+      }
+      System.out.println(total);
+  }
+}

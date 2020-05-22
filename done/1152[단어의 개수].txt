@@ -1,0 +1,13 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String str = br.readLine();
+    StringTokenizer st = new StringTokenizer(str, " ");
+    int cnt = st.countTokens();
+    System.out.println(cnt);
+    
+  }
+}

@@ -1,0 +1,34 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  public static int possible(String word) {
+    int len = word.length();
+    int idx = 0;
+    boolean[] visited = new boolean[26]; 
+    while(idx<len-1) {
+      char c1 = word.charAt(idx);
+      char c2 = word.charAt(idx+1);
+      if(c1==c2) {
+        idx++;
+      }else{
+        if(visited[c2-'a']==true) {
+          return 0;
+        }
+        visited[c1-'a'] = true;
+        idx++;
+      }
+    }
+    return 1;
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    int n = Integer.parseInt(br.readLine());
+    int result = 0;
+    for(int i=0; i<n; i++) {
+      String str = br.readLine();
+      result += possible(str);
+    }
+    System.out.println(result);
+  }
+}

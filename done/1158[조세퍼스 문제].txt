@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class Main {
+
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    int k = sc.nextInt();
+    LinkedList<Integer> list = new LinkedList();
+    for(int i=1; i<=n; i++) {
+      list.add(i);
+    }
+    int idx = k-1;
+    int size = list.size();
+    ArrayList<Integer> result = new ArrayList();
+    while(!list.isEmpty()) {
+      result.add(list.get(idx));
+      list.remove(idx);
+      size-=1;
+      idx +=(k-1);
+      while(size>0&&idx>=size) {
+        idx-=size;
+      }
+    }
+    System.out.print("<"+result.get(0));
+    for(int i=1; i<n; i++) {
+      System.out.print(", "+result.get(i));
+    }
+    System.out.println(">");
+  }
+}

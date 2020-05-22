@@ -1,0 +1,93 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int n,L,R;
+  static int[][] map;
+  static boolean[][] visited;
+  static int[] dx= {-1,1,0,0};
+  static int[] dy= {0,0,1,-1};
+  static int result=0;
+  static boolean check;
+  public static void go(int x, int y) {
+    Queue<Pair> q = new LinkedList<>();
+    Queue<Pair> qsize = new LinkedList<>();
+    q.add(new Pair(x, y));
+    visited[x][y]=true;
+    int total =0;
+    while(!q.isEmpty()) { // 연합국의 갯수를 구한다.
+      Pair tmp = q.poll();
+      int tx=tmp.x;
+      int ty=tmp.y;
+      qsize.add(new Pair(tx, ty));
+      total+=map[tx][ty];
+      for(int i=0; i<4; i++) {
+        int nx=tx+dx[i];
+        int ny=ty+dy[i];
+        if(nx<0||nx>n-1||ny<0||ny>n-1)continue;
+        if(visited[nx][ny]) continue;
+        int gap=Math.abs(map[tx][ty]-map[nx][ny]);
+        if(gap<L||gap>R) continue;
+        q.add(new Pair(nx, ny));
+        visited[nx][ny]=true;
+      }
+    }
+    // 연합국이 있을 때, 인구이동 
+    if(qsize.size()!=1) {
+      check=true;
+      int val = total/qsize.size();
+      while(!qsize.isEmpty()) {
+        Pair tmp = qsize.poll();
+        int tx=tmp.x;
+        int ty=tmp.y;
+        map[tx][ty]=val;
+      }
+    }
+  }
+  public static class Pair{
+    int x,y;
+    public Pair(int x, int y) {
+      this.x=x;
+      this.y=y;
+    }
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
+    L = Integer.parseInt(st.nextToken());
+    R = Integer.parseInt(st.nextToken());
+    map = new int[n][n];
+    visited = new boolean[n][n];
+    for(int i=0; i<n; i++) {
+      st = new StringTokenizer(br.readLine());
+      for(int j=0; j<n; j++) {
+        map[i][j] = Integer.parseInt(st.nextToken());
+      }
+    }
+ // 연합국 탐색, 인구이동
+    while(true) {
+      check=false;
+      for(int i=0; i<n; i++) {
+        for(int j=0; j<n; j++) {
+          if(visited[i][j]==false) {
+            go(i,j);
+          }
+        }
+      }
+      if(check==false) { // 더이상 인구이동이 없다면, break;
+        System.out.println(result);
+        break;
+      }else {
+        result++;
+        // 인구이동 초기화
+        for(int i=0; i<n; i++) {
+          for(int j=0; j<n; j++) {
+            visited[i][j]=false;
+          }
+        }
+      }
+    }
+    
+  }
+}

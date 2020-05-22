@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.*;
+
+public class Main{
+  static int N;
+  static int[][] arr;
+  static boolean[][] check;
+  static int[] dx = {-1,0,1,0};
+  static int[] dy = {0,1,0,-1};
+  static int cnt, idx;
+  static ArrayList<Integer> total;
+  
+  public static void dfs(int x, int y) {
+    check[x][y] = true;
+    idx++;
+    for(int i=0; i<4; i++) {
+      int cx = x+dx[i];
+      int cy = y+dy[i];
+      if(0<=cx&&cx<N&&0<=cy&&cy<N) {
+        if(check[cx][cy]==false&&arr[cx][cy]==1) {
+          dfs(cx,cy);
+        }
+      }
+    }
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    N = Integer.parseInt(br.readLine());
+    arr = new int[N][N];
+    check = new boolean[N][N];
+    total = new ArrayList<>();
+    
+    for(int i=0; i<N; i++) {
+      String[] line = br.readLine().split("");
+      for(int j=0; j<N; j++) {
+        arr[i][j] = Integer.parseInt(line[j]);
+      }
+    }
+    cnt=0;
+    for(int i=0; i<N; i++) {
+      for(int j=0; j<N; j++) {
+        idx=0;
+        if(check[i][j]==false&&arr[i][j]==1) {
+          cnt++;
+          dfs(i,j);
+          total.add(idx);
+        }
+      }
+    }
+    System.out.println(cnt);
+    Collections.sort(total);
+    for(int i=0; i<total.size(); i++) {
+      System.out.println(total.get(i));
+    }
+  }
+}

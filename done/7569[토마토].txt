@@ -1,0 +1,81 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int[][][] con;
+  static int[] dx = {1,-1,0,0,0,0};
+  static int[] dy = {0,0,1,-1,0,0};
+  static int[] dz = {0,0,0,0,1,-1};
+  static boolean[][][] visited;
+  
+  public static class Pair{
+    int x, y, z,cnt;
+    public Pair(int x, int y, int z,int cnt) {
+      this.x = x;
+      this.y = y;
+      this.z = z;
+      this.cnt = cnt;
+    }
+  }
+  
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String[] str = br.readLine().split(" "); 
+    int M = Integer.parseInt(str[0]);
+    int N = Integer.parseInt(str[1]);
+    int H = Integer.parseInt(str[2]);
+    con = new int[N][M][H];
+    visited = new boolean[N][M][H];
+    Queue<Pair> q = new LinkedList<>();
+    for(int t=0; t<H; t++) {
+      for(int i=0; i<N; i++) {
+        String[] line = br.readLine().split(" ");
+        for(int j=0; j<M; j++) {
+          con[i][j][t] = Integer.parseInt(line[j]);
+          if(con[i][j][t]==1) {
+            visited[i][j][t] = true;
+            q.add(new Pair(i, j,t,0));
+          }
+        }
+      }
+    }
+    int result = 0;
+    while(!q.isEmpty()) {
+      Pair tmp = q.poll();
+      int tx = tmp.x;
+      int ty = tmp.y;
+      int tz = tmp.z;
+      int cnt = tmp.cnt;
+      for(int i=0; i<6; i++) {
+        int nx = tx+dx[i];
+        int ny = ty+dy[i];
+        int nz = tz+dz[i];
+        if(nx<0||nx>=N||ny<0||ny>=M||nz<0||nz>=H) continue;
+        if(con[nx][ny][nz]==-1) continue;
+        if(visited[nx][ny][nz]== false) {
+          q.add(new Pair(nx, ny, nz, cnt+1));
+          visited[nx][ny][nz] = true;
+          con[nx][ny][nz] = cnt+1;
+          result = cnt+1;
+        }
+      }
+    }// end while();
+    boolean check = true;
+    for(int h=0; h<H; h++) {
+      for(int i=0; i<N; i++) {
+        for(int j=0; j<M; j++) {
+          if(con[i][j][h]==0) {
+            check = false;
+            //break;
+          }
+        }
+      }
+    }
+    if(check) {
+      System.out.println(result);
+    }else {
+      System.out.println("-1");
+    }
+  }
+
+}

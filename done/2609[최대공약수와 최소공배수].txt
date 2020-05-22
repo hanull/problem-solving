@@ -1,0 +1,19 @@
+import java.util.*;
+
+public class Main {
+  public static int GCD(int x, int y) {
+    int tmp = x%y;
+    if(tmp==0) {
+      return y;
+    }
+    return GCD(y,tmp);
+  }
+  public static void main(String[] args) {
+    Scanner sc  = new Scanner(System.in);
+    int a = sc.nextInt();
+    int b = sc.nextInt();
+    int gcd = GCD(a,b);
+    System.out.println(gcd);
+    System.out.println((a*b)/gcd);
+  }
+}

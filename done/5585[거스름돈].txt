@@ -1,0 +1,17 @@
+import java.util.Scanner;
+
+public class Main {
+
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    n = 1000-n;
+    int[] money = {500,100,50,10,5,1};
+    int cnt = 0;
+    for(int i=0; i<money.length; i++) {
+      cnt+= n/money[i];
+      n = n%money[i];
+    }
+    System.out.println(cnt);
+  }
+}

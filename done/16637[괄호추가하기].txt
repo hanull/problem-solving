@@ -1,0 +1,85 @@
+package baekjoon;
+
+import java.io.*;
+import java.util.*;
+
+public class Ex16637_괄호추가하기 {
+  static int n;
+  static int[] num, copynum;
+  static char[] op;
+  static boolean[] visited;
+  static ArrayList<Pair> list = new ArrayList<>();
+  static int opcnt;
+  static int result=Integer.MIN_VALUE;
+  public static void solve(int index,int cnt,int total) { // total만큼의 괄호를 사용
+    if(cnt==total) {
+      for(int i=0; i<n+1; i++) {
+        copynum[i]=num[i];
+      }
+      int tmp=cal();
+      for(int i=0; i<n+1; i++) {
+        num[i]=copynum[i];
+      }
+      if(tmp>result) result=tmp;
+      return;
+    }
+    for(int i=index; i<n; i++) {
+      visited[i]=true;
+      visited[i+1]=true;
+      solve(i+2,cnt+1,total);
+      visited[i]=false;
+      visited[i+1]=false;
+    }
+    
+  }
+  public static int cal() {
+    Queue<Integer> q = new LinkedList<>();
+    for(int i=0; i<n; i=i+2) { // 괄호로 계산할 숫자
+      if(visited[i]) {
+        q.add(i);
+        q.add(i+1);
+      }
+    }
+    for(int i=0; i<n; i++) {
+      if(!visited[i]) {
+        q.add(i);
+      }
+    }
+    int total=num[q.poll()];
+    System.out.println("total "+total);
+    while(!q.isEmpty()) {
+      int tmp=q.poll();
+      if(op[tmp]=='+') {
+        total+=num[tmp+1];
+        num[tmp+1]=total;
+      }else if(op[tmp]=='-') {
+        total-=num[tmp+1];
+        num[tmp+1]=total;
+      }else {
+        total*=num[tmp+1];
+        num[tmp+1]=total;
+      }
+    }
+    return total;
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    n = Integer.parseInt(br.readLine())/2;
+    num=new int[n+1];
+    copynum=new int[n+1];
+    op=new char[n];
+    String[] line=br.readLine().split("");
+    for(int i=0; i<n+1; i++) {
+      num[i]=Integer.parseInt(line[i*2]);
+    }
+    for(int i=0; i<n; i++) {
+      op[i]=line[2*i+1].charAt(0);
+    }
+    opcnt = num.length/2; // ()괄호의 최대 개수
+    visited = new boolean[n+1];
+    for(int i=0; i<=opcnt; i++) {
+      solve(0,0,i);
+    }
+    System.out.println(result);
+  }
+}

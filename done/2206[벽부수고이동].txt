@@ -1,0 +1,84 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int N,M;
+  static int[][] map;
+  static boolean[][][] visited;
+  static int[] dx = {-1,0,1,0};
+  static int[] dy = {0,-1,0,1};
+  static int result = Integer.MAX_VALUE;
+  // check=0 벽을 안 부줬을때, check=1 벽을 이미 부쉈을떄
+  public static class Pair{
+    int x, y, dd,c;
+    public Pair(int x, int y, int dd, int c) {
+      this.x = x;
+      this.y = y;
+      this.dd=dd;
+      this.c = c;
+    }
+  }
+  public static void bfs() {
+    Queue<Pair> q = new LinkedList<>();
+    q.add(new Pair(0, 0, 1,0));
+    visited[0][0][0] = true;
+    while(!q.isEmpty()) {
+      Pair tmp = q.poll();
+      int px = tmp.x;
+      int py = tmp.y;
+      int dd = tmp.dd;
+      int c = tmp.c;
+      if(px==N-1&&py==M-1) {
+        if(result>dd) {
+          result = dd;
+        }
+        continue;
+      }
+      for(int i=0; i<4; i++) {
+        int nx = px+dx[i];
+        int ny = py+dy[i];
+        if(nx>=0&&nx<N&&ny>=0&&ny<M) {
+          
+          // 이전에 벽을 부수지 않았고, 현재 정점에 방문하지 않았을 때
+          // 벽이 있는 경우1와, 벽이 없는 경우0으로 이동 가능.
+          if(c==0&&visited[nx][ny][c]==false) {
+            visited[nx][ny][c] = true;
+            if(map[nx][ny]==1) {  // 벽이 있으면
+              q.add(new Pair(nx,ny,dd+1,1));
+            }else {  // 벽이 없으면
+              q.add(new Pair(nx,ny,dd+1,0));
+            }
+          }
+          // 이전에 벽을 부쉈으면, 벽이 없는 경우만 가능.
+          if(c==1&&visited[nx][ny][c]==false) {
+            if(map[nx][ny]==0) {
+              visited[nx][ny][c] = true;
+              q.add(new Pair(nx, ny, dd+1,1));
+            }
+          }
+        }
+      }
+    }
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String[] s = br.readLine().split(" ");
+    N = Integer.parseInt(s[0]);
+    M = Integer.parseInt(s[1]);
+    map = new int[N][M];
+    visited = new boolean[N][M][2];
+    for(int i=0; i<N; i++) {
+      String[] line = br.readLine().split("");
+      for(int j=0; j<M; j++) {
+        map[i][j] = Integer.parseInt(line[j]);
+      }
+    }
+    bfs();
+    if(result==Integer.MAX_VALUE) {
+      System.out.println("-1");
+    }else {
+      System.out.println(result);
+    }
+    
+  }
+}

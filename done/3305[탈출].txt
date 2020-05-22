@@ -1,0 +1,93 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int R, C;
+  static char[][] map;
+  static int[][] visited,result;
+  static Queue<Pair> q = new LinkedList<>();
+  static int[] dx = {-1,0,1,0};
+  static int[] dy = {0,-1,0,1};
+  static int goalX, goalY, startX, startY;
+  
+  public static class Pair{
+    int x, y;
+    public Pair(int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String[] line1 = br.readLine().split(" ");
+    R = Integer.parseInt(line1[0]);
+    C = Integer.parseInt(line1[1]);
+    map = new char[R][C];
+    visited = new int[R][C];
+    result = new int[R][C];
+    
+    for(int i=0;i<R; i++) {
+      for(int j=0; j<C; j++) {
+        visited[i][j] = -1;
+        result[i][j] = -1;
+      }
+    }
+    for(int i=0; i<R; i++) {
+      String line = br.readLine();
+      for(int j=0; j<C; j++) {
+        map[i][j] = line.charAt(j);
+        if(map[i][j]=='*') {
+          q.add(new Pair(i, j));
+          visited[i][j] = 0;
+        }else if(map[i][j]=='S') {
+          startX = i;
+          startY = j;
+          result[i][j] = 0;
+        }else if(map[i][j]=='D') {
+          goalX = i;
+          goalY = j;
+        }
+      }
+    }
+    // 물이 차는 시간.
+    while(!q.isEmpty()) {
+      Pair tmp = q.poll();
+      int px = tmp.x;
+      int py = tmp.y;
+      for(int i=0; i<4; i++) {
+        int nx = px+dx[i];
+        int ny = py+dy[i];
+        if(nx<0||nx>=R||ny<0||ny>=C) continue;
+        if(visited[nx][ny]!=-1) continue;
+        if(map[nx][ny]=='X'||map[nx][ny]=='D') continue;
+        visited[nx][ny] = visited[px][py] + 1;
+        q.add(new Pair(nx, ny));
+      }
+    }    
+    // 물을 피해서 비버굴까지 이동하는 시간.
+    q.add(new Pair(startX ,startY));
+    while(!q.isEmpty()) {
+      Pair tmp = q.poll();
+      int px = tmp.x;
+      int py = tmp.y;
+      for(int i=0; i<4; i++) {
+        int nx = px+dx[i];
+        int ny = py+dy[i];
+        if(nx<0||nx>=R||ny<0||ny>=C) continue;
+        if(result[nx][ny]!=-1) continue;
+        if(map[nx][ny]=='X') continue;
+        // 비버굴 or 물을 피해 이동가능할 때
+        if(visited[nx][ny]==-1 || result[px][py]+1<visited[nx][ny]) {
+          result[nx][ny] = result[px][py] + 1;
+          q.add(new Pair(nx, ny));
+        }
+      }
+    }    
+    if(result[goalX][goalY]==-1) {
+      System.out.println("KAKTUS");
+    }else {
+      System.out.println(result[goalX][goalY]);
+    }
+    
+  }
+}

@@ -1,0 +1,26 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+  static int result =0;
+  public static void go(int a, int b, int total) {
+    if(b==0) {
+     result = total;
+     return;
+    }
+    go(a,b-1,total*a);
+  }
+  public static void main(String[] args) throws Exception{
+    Scanner sc = new Scanner(System.in);
+    int T=10;
+    while(T-->0) {
+      int t = sc.nextInt();
+      int a = sc.nextInt();
+      int b = sc.nextInt();
+      go(a,b,1);
+      System.out.print("#"+t+" ");
+      System.out.println(result);
+    }
+
+  }
+}

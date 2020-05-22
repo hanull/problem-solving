@@ -1,0 +1,99 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int n,m,k;
+  static int[][] A,map;
+  static PriorityQueue<Pair> tree = new PriorityQueue<>();
+  static Queue<Pair> dead = new LinkedList<>();
+  static int[] dx= {-1,-1,-1,0,0,1,1,1};
+  static int[] dy= {-1,0,1,-1,1,-1,0,1};
+  public static void go() {
+    while(k-->0) {
+      // 봄, 나이만큼 양분을 먹는다.
+      Queue<Pair> q = new LinkedList<>();
+      while(!tree.isEmpty()) {
+        Pair temp = tree.poll();
+        int x = temp.x;
+        int y = temp.y;
+        int age=temp.age;
+        if(map[x][y]-age<0) { // 양분을 먹을 수 없으면 죽음.
+          dead.add(temp);
+        }else {
+          map[x][y]-=age;
+          q.add(new Pair(x, y, age+1)); // 나이 1증가
+        }
+      }
+      tree.addAll(q);
+      
+      // 여름, 죽은나무 -> 양분
+      while(!dead.isEmpty()) { 
+        Pair tmp=dead.poll();
+        int x=tmp.x;
+        int y=tmp.y;
+        int age=tmp.age/2;
+        map[x][y]+=age;
+      }
+      
+      // 가을, 인접한 칸에 나무가 번식
+      while(!q.isEmpty()) {
+        Pair tmp = q.poll();
+        int tx=tmp.x;
+        int ty=tmp.y;
+        int age=tmp.age;
+        if(age%5!=0) continue; // 번식하는 나무는 5의 배수
+        for(int j=0; j<8; j++) {
+          int nx=tx+dx[j];
+          int ny=ty+dy[j];
+          if(nx<1||nx>n||ny<1||ny>n) continue;
+          tree.add(new Pair(nx,ny,1));
+        }
+      }
+      
+      // 겨울, 땅에 양분을 추가
+      for(int i=1; i<=n; i++) {
+        for(int j=1; j<=n; j++) {
+          map[i][j]+=A[i][j];
+        }
+      }
+    } // end testcase();
+  }
+  
+  public static class Pair implements Comparable<Pair>{
+    int x,y,age;
+    public Pair(int x, int y,int age) {
+      this.x=x;
+      this.y=y;
+      this.age=age;
+    }
+    @Override
+    public int compareTo(Pair other) {
+      return Integer.compare(age, other.age);
+    }
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n=Integer.parseInt(st.nextToken());
+    m=Integer.parseInt(st.nextToken());
+    k=Integer.parseInt(st.nextToken());
+    A=new int[n+1][n+1];
+    map=new int[n+1][n+1];
+    for(int i=1; i<=n; i++) {
+      st=new StringTokenizer(br.readLine());
+      for(int j=1; j<=n; j++) {
+        A[i][j]=Integer.parseInt(st.nextToken());
+        map[i][j]=5;
+      }
+    }
+    for(int i=0; i<m; i++) {
+      st=new StringTokenizer(br.readLine());
+      int x=Integer.parseInt(st.nextToken());
+      int y=Integer.parseInt(st.nextToken());
+      int age=Integer.parseInt(st.nextToken());
+      tree.add(new Pair(x, y, age));
+    }
+    go();
+    System.out.println(tree.size());
+  }
+}

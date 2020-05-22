@@ -1,0 +1,28 @@
+import java.util.*;
+
+public class Main {
+  public static int d(int x) {
+    int n = x;
+    int num = x;
+    while(n>0) {
+      int tmp = n%10;
+      num+=tmp;
+      n/=10;
+    }
+    return num;
+  }
+  public static void main(String[] args){
+    boolean[] check = new boolean[10001];
+    for(int i=1; i<=10000; i++) {
+      int k = d(i);
+      if(k<=10000) {
+        check[k] = true;
+      }
+    }
+    for(int i=1; i<=10000; i++) {
+      if(check[i]==false) {
+        System.out.println(i);
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  static int r,c,m;
+  static int[] dx= {0,-1,1,0,0};  // 1인 경우는 위, 2인 경우는 아래, 3인 경우는 오른쪽, 4인 경우는 왼쪽
+  static int[] dy= {0,0,0,1,-1};
+  static ArrayList<Pair> fish = new ArrayList<>();
+  static Pair[][] map;
+  static int total=0;
+  
+  public static void solve() {
+    for(int t=1; t<=c; t++) {
+      // 낚시 시작
+      Pair taget = null;
+      for(int i=1; i<=r; i++) {
+        if(map[i][t]!=null) {
+          taget=map[i][t];
+          break;
+        }
+      }
+      if(taget!=null) {
+        map[taget.x][taget.y]=null;
+        total+=taget.size;
+        fish.remove(taget);
+      }
+      
+      // 물고기 이동
+      for(int i=0; i<fish.size(); i++) {
+        Pair tmp = fish.get(i);
+        int nx=tmp.x;
+        int ny=tmp.y;
+        int speed=tmp.speed;
+        int d=tmp.direction;
+        int size=tmp.size;
+        for(int j=0; j<speed; j++) { // 속도만큼 칸을 이동
+          nx+=dx[d];
+          ny+=dy[d];
+          if(nx<1||nx>r||ny<1||ny>c) { // 벽을 만나면 방향전환
+            nx-=dx[d];
+            ny-=dy[d];
+            if(d==1||d==3) {
+              d++;
+            }else {
+              d--;
+            }
+            nx+=dx[d];
+            ny+=dy[d];
+          }
+        }
+        fish.get(i).setX(nx);
+        fish.get(i).setY(ny);
+        fish.get(i).setS(speed);
+        fish.get(i).setD(d);
+        fish.get(i).setZ(size);
+      }
+      
+      map=new Pair[r+1][c+1];
+      for(int i=0; i<fish.size(); i++) {
+        Pair tmp = fish.get(i);
+        if(map[tmp.x][tmp.y]==null) {                                                    
+          map[tmp.x][tmp.y]=tmp;
+        }
+        else {  // 이미 상어가 존재한다면, 크기를 비교. 
+          i--;
+          if(map[tmp.x][tmp.y].size<tmp.size) { // 존재하던 상아의 크기가 작으면, 리스트에서 제거, 맵 변경
+            fish.remove(map[tmp.x][tmp.y]);
+            map[tmp.x][tmp.y]=tmp;
+          }else {
+            fish.remove(tmp);
+          }
+        }
+      }
+      
+      
+    }// 이동완료;
+  }
+  public static class Pair{
+    int x,y,speed,direction,size;
+    public Pair(int x, int y,int speed, int direction, int size) {
+      this.x=x;
+      this.y=y;
+      this.speed=speed;
+      this.direction=direction;
+      this.size=size;
+    }
+    public void setX(int x){
+      this.x=x;
+    }
+    public void setY(int y){
+      this.y=y;
+    }
+    public void setS(int speed){
+      this.speed=speed;
+    }
+    public void setD(int direction){
+      this.direction=direction;
+    }
+    public void setZ(int size){
+      this.size=size;
+    }
+  }
+  public static void main(String[] args) throws Exception{
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    r=Integer.parseInt(st.nextToken());
+    c=Integer.parseInt(st.nextToken());
+    m=Integer.parseInt(st.nextToken());
+    map=new Pair[r+1][c+1];
+    for(int i=0; i<m; i++) {
+      st=new StringTokenizer(br.readLine());
+      int a=Integer.parseInt(st.nextToken());
+      int b=Integer.parseInt(st.nextToken());
+      int c=Integer.parseInt(st.nextToken());
+      int d=Integer.parseInt(st.nextToken());
+      int e=Integer.parseInt(st.nextToken());
+      Pair pair = new Pair(a,b,c,d,e);
+      map[a][b]=pair;
+      fish.add(pair);
+    }
+    solve();
+    System.out.println(total);
+  }
+}

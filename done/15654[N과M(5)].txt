@@ -1,0 +1,36 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+  static int N, M, num[], out[];
+  static boolean check[];
+  public static void main(String[] args) {
+    Scanner sc= new Scanner(System.in);
+    N = sc.nextInt();
+    M = sc.nextInt();
+    num = new int[N];
+    out = new int[M];
+    check = new boolean[N];
+    for(int i=0; i<N; i++) {
+      num[i] = sc.nextInt();
+    }
+    Arrays.sort(num);
+    go(0);
+  }
+  public static void go(int idx) {
+    if(idx == M) {
+      for(int i=0; i<M; i++) {
+        System.out.print(out[i]+" ");
+      }System.out.println();
+      return;
+    }
+    for(int i=0; i<num.length; i++) {
+      if(check[i]!=true) {
+        check[i] = true;
+        out[idx] = num[i];
+        go(idx+1);
+        check[i]= false;
+      }
+    }
+  }
+}

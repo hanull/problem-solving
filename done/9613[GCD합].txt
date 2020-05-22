@@ -1,0 +1,35 @@
+import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int t = sc.nextInt();
+    
+    for(int i=0; i<t; i++) {
+      int n = sc.nextInt();
+      int[] arr = new int[n];
+      
+      for(int j=0; j<n; j++) {
+        arr[j] = sc.nextInt();
+      }
+      
+      long result=0;
+      for(int p=0; p<n-1; p++) {
+        for(int q=p+1; q<n; q++) {
+          result += GCD(arr[p],arr[q]);
+        }
+      }
+      System.out.println(result);
+    }
+  }
+  
+  public static int GCD(int a, int b) {
+    while(b!=0) {
+      int r = a % b;
+      a = b;
+      b = r;
+    }
+    return a;
+  }
+  
+}
