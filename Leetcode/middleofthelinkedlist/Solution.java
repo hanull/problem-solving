@@ -1,6 +1,6 @@
 package Leetcode.middleofthelinkedlist;
 
-class Solution {
+public class Solution {
   //Definition for singly-linked list.
   public class ListNode {
     int val;

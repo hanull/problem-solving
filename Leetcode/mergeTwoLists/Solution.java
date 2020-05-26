@@ -3,7 +3,7 @@ package Leetcode.mergeTwoLists;
 import java.util.*;
 
 
-class Solution {
+public class Solution {
   
     //Definition for singly-linked list.
     public class ListNode {
