@@ -14,6 +14,16 @@ public class Solution_42839 {
       max += arrNums[i]* Math.pow(10,arrNums.length - 1 - i);
     }
     int [] prime = new int[max+1];
+    checkPrime(prime, max);
+    int cnt = 0;
+    for(int i=2; i<=max; i++) {
+      if (prime[i] !=0 && isPossible(i, arrNums))
+        cnt++;
+    }
+    return cnt;
+  }
+  
+  public static void checkPrime(int[] prime, int max) {
     Arrays.setAll(prime, i -> i);
     prime[1]=0;
     for(int i=2; i<=max; i++) {
@@ -22,12 +32,6 @@ public class Solution_42839 {
         prime[j] = 0;
       }
     }
-    int cnt = 0;
-    for(int i=2; i<=max; i++) {
-      if (prime[i] !=0 && isPossible(i, arrNums))
-        cnt++;
-    }
-    return cnt;
   }
   
   public static boolean isPossible(int x, int[] arr) {
