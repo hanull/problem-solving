@@ -1,8 +1,8 @@
-package boj;
+package boj.boj1747;
 
 import java.util.*;
 
-public class boj_1747_소수팰린드롬 {
+public class Main {
   public static boolean is_prime(int n)
   {
     if (n == 1) return false;
