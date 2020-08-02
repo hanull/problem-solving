@@ -2,7 +2,7 @@ package Programmers;
 import java.io.*;
 import java.util.*;
 
-public class ±â´É°³¹ß {
+public class ê¸°ëŠ¥ê°œë°œ {
   public static int[] solution(int[] progresses, int[] speeds) {
     int[] arr=new int[progresses.length];
     ArrayList<Integer> list = new ArrayList<>();

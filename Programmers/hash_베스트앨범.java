@@ -2,25 +2,23 @@ package Programmers;
 
 import java.util.*;
 
-public class hash_º£½ºÆ®¾Ù¹ü {
+public class hash_ë² ìŠ¤íŠ¸ì•¨ë²” {
   public static int[] solution(String[] genres, int[] plays) {
     Map<String, Integer> hm = new HashMap<String, Integer>();
-    for(int i=0; i<genres.length; i++) {  // Àå¸£º° Àç»ýµÈ È½¼ö¸¦ ±â·Ï
+    for(int i=0; i<genres.length; i++) {
       hm.put(genres[i], hm.getOrDefault(genres[i], 0)+plays[i]);
     }
-    // Àç»ý¼øÀ¸·Î Á¤·Ä : Àç»ý¼ö
     PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
     for(Integer num : hm.values()) {
       pq.add(num);
     }
     
-    //¸ðµç Àå¸£´Â Àç»ýµÈ È½¼ö°¡ ´Ù¸£¹Ç·Î rankHashÀÇ Key, Value¸¦ ¹Ù²Û HashMap »ý¼º
     HashMap<Integer, String> rankHashReverse = new HashMap<Integer, String>();
     for (String key : hm.keySet()) {
         rankHashReverse.put(hm.get(key), key);
     }
 
-    String[] genresType = new String[pq.size()]; // Àç»ý¼øÀ¸·Î Á¤·Ä : Àå¸£ 
+    String[] genresType = new String[pq.size()];
     int len=pq.size();
     for(int i=0; i<len; i++) {
       genresType[i]= rankHashReverse.get(pq.poll());

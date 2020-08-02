@@ -2,7 +2,7 @@ package Programmers;
 
 import java.io.*;
 
-public class hash_ÀüÈ­¹øÈ£¸ñ·Ï {
+public class hash_ì „í™”ë²ˆí˜¸ëª©ë¡ {
   public static boolean solution(String[] phone_book) {
     for(int i=0; i<phone_book.length; i++) {
       for(int j=0; j<phone_book.length; j++) {

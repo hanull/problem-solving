@@ -1,5 +1,5 @@
 package Programmers;
-public class ³×Æ®¿öÅ© {
+public class ë„¤íŠ¸ì›Œí¬ {
   public static int solution(int n, int[][] computers) {
     int answer = 0;
     return answer;

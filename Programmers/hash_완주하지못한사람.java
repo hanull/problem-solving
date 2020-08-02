@@ -2,11 +2,11 @@ package Programmers;
 import java.io.*;
 import java.util.*;
 
-public class hash_¿ÏÁÖÇÏÁö¸øÇÑ»ç¶÷ {
+public class hash_ì™„ì£¼í•˜ì§€ëª»í•œì‚¬ëŒ {
   public static String solution(String[] participant, String[] completion) {
     Map<String, Integer> map = new HashMap<String, Integer>();
     String result="";
-    for(String str:participant) { // Âü°¡ÀÚ µî·Ï
+    for(String str:participant) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
       if(map.containsKey(str)) {
         map.replace(str, map.get(str)+1);
       }
@@ -14,12 +14,12 @@ public class hash_¿ÏÁÖÇÏÁö¸øÇÑ»ç¶÷ {
         map.put(str, 1);
       }
     }
-    for(String str:completion) { // ¿ÏÁÖÀÚ Ã¼Å©
+    for(String str:completion) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
       if(map.containsKey(str)) {
         map.replace(str, map.get(str)-1);
       }
     }
-    for(String str:participant) { // ¿ÏÁÖÇÏÁö ¸øÇÑ »ç¶÷ Ãâ·Â.
+    for(String str:participant) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
       if(map.get(str)!=0) {
         result=str;
       }

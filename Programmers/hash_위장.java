@@ -2,7 +2,8 @@ package Programmers;
 import java.io.*;
 import java.util.*;
 
-public class hash_À§Àå {
+public class
+hash_ìœ„ìž¥ {
   
   public static int solution(String[][] clothes) {
     Map<String, Integer> hm = new HashMap<String, Integer>();
@@ -11,7 +12,7 @@ public class hash_À§Àå {
     for(int i=0; i<len; i++) {
       hm.put(clothes[i][1], hm.getOrDefault(clothes[i][1], 0)+1);
     }
-    for(String key:hm.keySet()) { // key°ªÀÇ ¿ÊÀ» ¼±ÅÃÇÏÁö ¾ÊÀ» °æ¿ì°¡ ÀÖ¾î¼­ +1À» ÇØÁØ´Ù.
+    for(String key:hm.keySet()) {
       answer*=hm.get(key)+1;
     }
     answer--;
