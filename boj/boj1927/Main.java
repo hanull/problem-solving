@@ -1,7 +1,6 @@
-package boj.boj11279;
+package boj.boj1927;
 
 import java.io.*;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Main {
@@ -10,7 +9,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int N = stoi(br.readLine());
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < N; i++) {
@@ -37,5 +36,4 @@ public class Main {
     private static int stoi(String input) {
         return Integer.parseInt(input);
     }
-
 }
