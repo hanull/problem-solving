@@ -2,45 +2,22 @@ package ebay.test2;
 
 public class Main {
 
-    static int min = 10001;
-
     public static void main(String[] args) {
-        int num = 18;
-        int[] cards = {1, 2, 5};
-        System.out.println(solution(num, cards));
+        Solution sol = new Solution();
+        System.out.println(sol.solution(1));
     }
 
-    public static int solution(int num, int[] cards) {
-        int end = 0;
-        for (int i = 0; i < cards.length; i++) {
-            if (cards[i] == num) {
-                min = 1;
-            } else if (cards[i] < num) {
-                end = i;
-            } else {
-                break;
-            }
-        }
-        if (min != 1) {
-            dfs(0, 0, end, num, cards);
-        }
-        min = min == 10001 ? -1 : min;
-        return min;
-    }
+}
 
-    private static void dfs(int hap, int cnt, int end, int target, int[] cards) {
-        if (cnt >= min) {
-            return;
+class Solution {
+
+    public int solution(int N) {
+        int[] dp = new int[N + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i <= N; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
         }
-        if (hap == target) {
-            min = min > cnt ? cnt : min;
-            return;
-        } else if (hap > target) {
-            return;
-        } else {
-            for (int i = 0; i <= end; i++) {
-                dfs(hap + cards[i], cnt + 1, end, target, cards);
-            }
-        }
+        return dp[N];
     }
 }
