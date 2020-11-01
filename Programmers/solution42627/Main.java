@@ -1,5 +1,6 @@
 package Programmers.solution42627;
 
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Main {
@@ -13,44 +14,50 @@ public class Main {
 
 class Solution {
     public int solution(int[][] jobs) {
-        int answer = 0;
-        PriorityQueue<Pair> pq = new PriorityQueue<>();
-        for (int i = 0; i < jobs.length; i++) {
-            int start = jobs[i][0];
-            int workingTime = jobs[i][1];
-            pq.add(new Pair(start, workingTime));
-        }
-        int len = pq.size();
-        int curTime = 0;
-        while (!pq.isEmpty()) {
-            Pair tmp = pq.poll();
-            int start = tmp.start;
-            int workingTime = tmp.workingTime;
-            if (start > curTime) {
-                curTime = start;
+        PriorityQueue<Pair> waitingQue = new PriorityQueue<>(new Comparator<Pair>() {
+            @Override
+            public int compare(Pair o1, Pair o2) {
+                return Integer.compare(o1.requestTime, o2.requestTime);
             }
-            int endTime = curTime + workingTime;
-            int totalTime = endTime - start;
-            answer += totalTime;
-            curTime = endTime;
+        });
+        PriorityQueue<Pair> pq = new PriorityQueue<>(new Comparator<Pair>() {
+            @Override
+            public int compare(Pair o1, Pair o2) {
+                return Integer.compare(o1.workingTime, o2.workingTime);
+            }
+        });
+        for (int[] tmp : jobs) {
+            int requestTime = tmp[0];
+            int workingTime = tmp[1];
+            waitingQue.offer(new Pair(requestTime, workingTime));
+        }
+        int answer = 0;
+        int len = waitingQue.size();
+        int time = waitingQue.peek().requestTime;
+        int cnt = 0;
+        while (cnt < len) {
+            while (!waitingQue.isEmpty() && waitingQue.peek().requestTime <= time) {
+                pq.offer(waitingQue.poll());
+            }
+            if (!pq.isEmpty()) {
+                Pair tmp = pq.poll();
+                time += tmp.workingTime;
+                answer += time - tmp.requestTime;
+                cnt++;
+            } else {
+                time++;
+            }
         }
         return answer / len;
     }
 }
 
-class Pair implements Comparable<Pair>{
-    int start, workingTime;
+class Pair {
+    int requestTime, workingTime;
 
-    public Pair(int start, int workingTime) {
-        this.start = start;
+    public Pair(int requestTime, int workingTime) {
+        this.requestTime = requestTime;
         this.workingTime = workingTime;
     }
 
-    @Override
-    public int compareTo(Pair o) {
-        if (this.workingTime == o.workingTime) {
-            return Integer.compare(this.start, o.start);
-        }
-        return Integer.compare(this.workingTime, o.workingTime);
-    }
 }
