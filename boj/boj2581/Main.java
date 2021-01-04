@@ -1,40 +1,39 @@
 package boj.boj2581;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-
-    static boolean[] prime;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int M = sc.nextInt();
         int N = sc.nextInt();
-        int min = 2;
-        int res = 0;
-        prime = new boolean[N + 1];
-
-        prime[0] = true;
-        prime[1] = true;
-        for (int i = 2; i <= Math.sqrt(M); i++) {
-            if (prime[i]) continue;
-            for (int j = i * i; j <= N; j+=i) {
-                prime[j] = true;
+        boolean[] prime = new boolean[N + 1];
+        Arrays.fill(prime, true);
+        prime[0] = prime[1] = false;
+        for (int i = 2; i <= Math.sqrt(N); i++) {
+            for (int j = i * i; j <= N; j += i) {
+                if (prime[j]) prime[j] = false;
             }
         }
+        int total = 0;
+        int num = 0;
+        boolean flag = false;
         for (int i = M; i <= N; i++) {
-            if (!prime[i]) {
-                res += i;
-                if (min == 2) {
-                    min = i;
+            if (prime[i]) {
+                total += i;
+                if (!flag) {
+                    num = i;
+                    flag = true;
                 }
             }
         }
-        if (res == 0) {
-            System.out.println(-1);
+        if (flag) {
+            System.out.println(total);
+            System.out.println(num);
         } else {
-            System.out.println(res);
-            System.out.println(min);
+            System.out.println(-1);
         }
     }
 
