@@ -1,47 +1,35 @@
 package boj.boj1003;
 
-import java.util.HashMap;
-import java.util.Scanner;
-
-class Pair{
-    int zero;
-    int one;
-
-    public Pair(int zero, int one) {
-        this.zero = zero;
-        this.one = one;
-    }
-}
+import java.io.*;
 
 public class Main {
-    static HashMap<Integer, Pair> hm = new HashMap<>();
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int t = sc.nextInt();
-        initFibo();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int T = stoi(br.readLine());
+        int[] dp = new int[41];
+        dp[0] = 0;
+        dp[1] = 1;
+
         for (int i = 2; i <= 40; i++) {
-            Pair tmp = fibo(i);
-            hm.put(i, tmp);
+            dp[i] = dp[i-2] + dp[i-1];
         }
-        for (int i = 0; i < t; i++) {
-            int n = sc.nextInt();
-            System.out.println(hm.get(n).zero + " " + hm.get(n).one);
+
+        while (T-- > 0) {
+            int N = stoi(br.readLine());
+            if (N == 0) {
+                bw.write(1 + " " + 0 + "\n");
+            } else {
+                bw.write(dp[N - 1] + " " + dp[N] + "\n");
+            }
         }
+        bw.flush();
+        bw.close();
     }
 
-    private static void initFibo() {
-        hm.put(0, new Pair(1, 0));
-        hm.put(1, new Pair(0, 1));
+    private static int stoi(String input) {
+        return Integer.valueOf(input);
     }
 
-    private static Pair fibo(int i) {
-        if (hm.containsKey(i)) {
-            return hm.get(i);
-        }
-        Pair tmp1 = fibo(i - 1);
-        Pair tmp2 = fibo(i - 2);
-        Pair next = new Pair(tmp1.zero + tmp2.zero, tmp1.one + tmp2.one);
-        return next;
-    }
 }
