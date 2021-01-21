@@ -47,9 +47,6 @@ public class Main {
         Queue<Node> melted = new LinkedList<>();
         while (cheeseSize > 0) {
             findAir();
-            int size = air.size();
-            int cnt = 0;
-
             while (!air.isEmpty()) {
                 Node tmp = air.poll();
                 int tx = tmp.x;
