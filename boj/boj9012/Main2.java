@@ -5,28 +5,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Stack;
 
-public class Main {
+public class Main2 {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int T = stoi(br.readLine());
-
-        for (int i = 0; i < T; i++) {
+        while (T-- > 0) {
             Stack<Character> stack = new Stack<>();
-            char[] chars = br.readLine().toCharArray();
-            for (int l = 0; l < chars.length; l++) {
-                if (!stack.isEmpty() && stack.peek() == '(' && chars[l] == ')') {
+            char[] arr = br.readLine().toCharArray();
+            for (char ch : arr) {
+                if (!stack.isEmpty() && ch == ')' && stack.peek() == '(') {
                     stack.pop();
                 } else {
-                    stack.push(chars[l]);
+                    stack.push(ch);
                 }
             }
-            System.out.println(getResult(stack.size()));
+            if (stack.isEmpty()) System.out.println("YES");
+            else System.out.println("NO");
         }
-    }
-
-    static String getResult(int size) {
-        return size == 0 ? "YES" : "NO";
     }
 
     static int stoi(String input) {
