@@ -13,9 +13,16 @@ public class Main {
     static PriorityQueue<Work> pq = new PriorityQueue<>(new Comparator<Work>() {
         @Override
         public int compare(Work o1, Work o2) {
-            if (o1.end == o2.end) {
-                return o1.start - o2.start;
+            if (o1.start == o2.start) {
+                return o1.end - o2.end;
             }
+            return o1.start - o2.start;
+        }
+    });
+
+    static PriorityQueue<Work> tempQ = new PriorityQueue<>(new Comparator<Work>() {
+        @Override
+        public int compare(Work o1, Work o2) {
             return o1.end - o2.end;
         }
     });
@@ -38,15 +45,18 @@ public class Main {
             pq.add(new Work(stoi(st.nextToken()), stoi(st.nextToken())));
         }
 
-        int end = pq.poll().end;
-        int classCount = 1;
         while (!pq.isEmpty()) {
-            Work work = pq.poll();
-            if (work.start < end) {
-                classCount++;
+            Work tmp = pq.poll();
+            if (tempQ.isEmpty()) {
+                tempQ.add(tmp);
+            } else {
+                if (tmp.start >= tempQ.peek().end) {
+                    tempQ.poll();
+                }
+                tempQ.add(tmp);
             }
         }
-        System.out.println(classCount);
+        System.out.println(tempQ.size());
     }
 
     static int stoi(String input) {
