@@ -57,8 +57,8 @@ public class Main {
 
     static void solve() {
         while (true) {
-            if (fishList.size() == 0) break;
             if (!haveAnyFish()) break;
+            if (fishList.size() == 0) break;
             if (fishList.size() == 1) {
                 targetFish[0] = fishList.poll();
                 moveShark();
@@ -158,18 +158,6 @@ public class Main {
     }
 
     static boolean haveAnyFish() {
-        int x = shark[0].x;
-        int y = shark[0].y;
-        boolean flag = false;
-        for (int i = 0; i < 4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            if (!isRange(nx, ny)) continue;
-            if (shark[0].size >= map[nx][ny]) {
-                flag = true;
-            }
-        }
-        if (!flag) return false;
         int sharkSize = shark[0].size;
         for (Fish fish : fishList) {
             if (sharkSize > fish.size) return true;
