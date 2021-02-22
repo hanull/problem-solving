@@ -80,6 +80,7 @@ public class Main {
                 boolean[][] visited = new boolean[N][M];
                 Deque<Node> deq = new ArrayDeque<>();
                 deq.add(new Node(N, archerPoint, 0));
+
                 while (!deq.isEmpty()) {    // 가장 가까운 적 공격 (같은 거리일 때, 왼쪽에 있는 적 먼저 죽이기)
                     Node tmp = deq.pollFirst();
                     int tx = tmp.x;
@@ -126,7 +127,7 @@ public class Main {
                 }
             }
 
-        }
+        }   // end whulie
 
         max = Math.max(max, killMonster);
     }
