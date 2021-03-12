@@ -24,7 +24,7 @@ public class Main2 {
 
         for (int i = 1; i <= N; i++) {
             for (int w = 1; w <= K; w++) {
-                if (weight[i] <= w) {     // 현재 물건을 반드시 포함하면서, 해당 무게의 배낭에 담을 수 있는 것
+                if (weight[i] <= w) {     // i번째 현재 물건을 반드시 포함할 수 있을 때, 해당 무게의 배낭에 담을 수 있는 것
                     dp[i][w] = Math.max(value[i] + dp[i - 1][w - weight[i]], dp[i - 1][w]);
                 } else {
                     dp[i][w] = dp[i - 1][w];
