@@ -28,7 +28,7 @@ public class Main {
             boolean flag = true;
             int tmp = num * 10 + i;
             if (nonPrime.contains(tmp)) continue;
-            for (int n = 2; n < tmp; n++) {
+            for (int n = 2; n <= Math.sqrt(tmp); n++) {
                 if (tmp % n == 0) {
                     nonPrime.add(tmp);
                     flag = false;
