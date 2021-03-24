@@ -68,9 +68,10 @@ public class Main {
             for (Node nextNode : vertexList[currentVertex]) {
                 int nextVertex = nextNode.vertex;
                 int weight = nextNode.dist;
-                if (distance[nextVertex] > distance[currentVertex] + weight) {
-                    distance[nextVertex] = distance[currentVertex] + weight;
-                    priorityQueue.add(new Node(nextVertex, distance[currentVertex] + weight));
+                int nextWeight = distance[currentVertex] + weight;
+                if (distance[nextVertex] > nextWeight) {
+                    distance[nextVertex] = nextWeight;
+                    priorityQueue.add(new Node(nextVertex, nextWeight));
                 }
             }
         }
