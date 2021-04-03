@@ -19,8 +19,8 @@ public class Main {
 
         int gcd = BigInteger.valueOf(leftString.length()).gcd(BigInteger.valueOf(rightString.length())).intValue();
         int lcm = leftString.length() * rightString.length() / gcd;
-        StringBuilder left = new StringBuilder();
-        StringBuilder right = new StringBuilder();
+        StringBuilder left = new StringBuilder(leftString);
+        StringBuilder right = new StringBuilder(rightString);
         int j = 0;
         for (int i = 0; i < lcm - leftString.length(); i++) {
             if (j == leftString.length()) j = 0;
@@ -31,9 +31,7 @@ public class Main {
             if (j== rightString.length()) j = 0;
             right.append(rightString.charAt(j++));
         }
-        leftString = leftString.concat(new String(left));
-        rightString = rightString.concat(new String(right));
-        System.out.println(leftString.equals(rightString) ? 1 : 0);
+        System.out.println(new String(left).equals(new String(right)) ? 1 : 0);
 
     }
 }
