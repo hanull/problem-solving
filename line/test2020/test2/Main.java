@@ -1,4 +1,4 @@
-package line.test2;
+package line.test2020.test2;
 
 import java.util.*;
 

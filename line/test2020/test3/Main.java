@@ -1,4 +1,4 @@
-package line.test3;
+package line.test2020.test3;
 
 public class Main {
 
