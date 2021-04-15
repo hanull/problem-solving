@@ -12,44 +12,44 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = stoi(br.readLine());
-        while (T-- > 0) {
-            N = stoi(br.readLine());
-            arr = new int[N];
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            for (int i = 0; i < N; i++) {
-                arr[i] = stoi(st.nextToken());
-            }
-            System.out.println(divideConquer(0, N - 1));
-
+        N = stoi(br.readLine());
+        arr = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            arr[i] = stoi(st.nextToken());
         }
 
+        System.out.println(divideConquer(0, N-1, findMin(0, N - 1)));
     }
 
-    static int divideConquer(int lo, int hi) {
+    static int divideConquer(int lo, int hi, int mul) {
         if (lo == hi) return arr[lo];
 
         int mid = (lo + hi) / 2;
+//
+//        int tmp = 0;
+//        int min = Integer.MAX_VALUE;
+//        int leftPart = Integer.MIN_VALUE;
+//        for (int i = mid; i >= lo; i--) {
+//            min = Math.min(min, arr[i]);
+//            tmp +=
+//        }
+//
+//
+//        int left = divideConquer(lo, mid, findMin(lo, mid));
+//        int right = divideConquer(mid + 1, hi, findMin(mid + 1, hi));
+//        int maxSinglePart = Math.max(left, right) * mul;
+//
+//        return Math.max(maxSinglePart, midPart);
+        return 0;
+    }
 
-        int tmp = 0;
-        int leftPart = Integer.MIN_VALUE;
-        for (int i = mid; i >= lo; i--) {
-            tmp += arr[i];
-            leftPart = Math.max(leftPart, tmp);
+    static int findMin(int lo, int hi) {
+        int min = Integer.MAX_VALUE;
+        for (int i = lo; i <= hi; i++) {
+            min = Math.min(min, arr[i]);
         }
-
-        tmp = 0;
-        int rightPart = Integer.MIN_VALUE;
-        for (int i = mid + 1; i <= hi; i++) {
-            tmp += arr[i];
-            rightPart = Math.max(rightPart, tmp);
-        }
-
-        int left = divideConquer(lo, mid);
-        int right = divideConquer(mid + 1, hi);
-        int maxSinglePart = Math.max(left, right);
-
-        return Math.max(maxSinglePart, leftPart + rightPart);
+        return min;
     }
 
     static int stoi(String input) {

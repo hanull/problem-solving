@@ -3,7 +3,6 @@ package jungol.회전초밥;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -17,6 +16,7 @@ public class Main {
         int C = stoi(st.nextToken());
         int[] sushi = new int[N + K - 1];
         int[] countSushi = new int[D + 2];
+        int result = 0;
 
         for (int i = 0; i < N; i++) {
             sushi[i] = stoi(br.readLine());
@@ -26,27 +26,25 @@ public class Main {
             sushi[i] = sushi[j++];
         }
 
-        HashSet<Integer> hashSet = new HashSet<>();
+        int count = 0;
         for (int i = 0; i < K; i++) {
-            hashSet.add(sushi[i]);
             countSushi[sushi[i]]++;
+            if(countSushi[sushi[i]] == 1) count++;
         }
-        int maxCount = hashSet.size();
-        if (!hashSet.contains(C)) maxCount++;
 
         j = K;
         for (int i = 1; i < N; i++) {
             countSushi[sushi[i-1]]--;
-            if (countSushi[sushi[i-1]] == 0) hashSet.remove(sushi[i - 1]);
-
+            if (countSushi[sushi[i-1]] == 0) count--;
             countSushi[sushi[j]]++;
-            hashSet.add(sushi[j]);
-            int count = hashSet.size();
-            if (!hashSet.contains(C)) count++;
-            maxCount = Math.max(maxCount, count);
+            if (countSushi[sushi[j]]== 1) count++;
+
+            int temp = count;
+            if (countSushi[C] == 0) temp++;
+            result = Math.max(result, temp);
             j++;
         }
-        System.out.println(maxCount);
+        System.out.println(result);
     }
 
     static int stoi(String input) {
