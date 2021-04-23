@@ -62,18 +62,6 @@ public class Solution {
         return false;
     }
 
-    private static void print() {
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                System.out.print(militaryPower[i][j] + " ");
-            }
-            for (int j = 0; j < N; j++) {
-                System.out.print("             " + country[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
     private static int calculate() {
         int answer = 0;
         for (int i = 0; i < N; i++) {
