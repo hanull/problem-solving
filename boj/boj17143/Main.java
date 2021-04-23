@@ -10,9 +10,9 @@ import java.util.StringTokenizer;
 public class Main {
 
     static int N, M, K, answer;
-    static Node[][] map;
-    static List<Node> sharkList = new ArrayList<>();
-    static class Node implements Comparable<Node>{
+    static Node[][] map, tempMap;
+    static List<Node> sharkList;
+    static class Node {
         int x, y, speed, direction, size;
 
         public Node(int x, int y, int speed, int direction, int size) {
@@ -21,11 +21,6 @@ public class Main {
             this.speed = speed;
             this.direction = direction;
             this.size = size;
-        }
-
-        @Override
-        public int compareTo(Node o) {
-            return o.size - this.size;
         }
     }
 
@@ -36,6 +31,7 @@ public class Main {
         M = stoi(st.nextToken());
         K = stoi(st.nextToken());
         map = new Node[N + 1][M + 1];
+        tempMap = new Node[N + 1][M + 1];
         int anglerPoint = 0;
         if (K == 0) {
             System.out.println(0);
@@ -49,7 +45,6 @@ public class Main {
             int d = stoi(st.nextToken()) - 1;
             int z = stoi(st.nextToken());
             map[n][m] = new Node(n, m, s, d, z);
-            sharkList.add(map[n][m]);
         }
 
         while (anglerPoint < M) {
@@ -84,7 +79,6 @@ public class Main {
     }
 
     private static void moveShark() {
-        Node[][] tempMap = new Node[N + 1][M + 1];
         for (Node node : sharkList) {
             int tx = node.x;
             int ty = node.y;
@@ -92,9 +86,8 @@ public class Main {
             int speed = node.speed;
             int direction = node.direction;
             int size = node.size;
-            int originSpeed = speed;
             while (speed > 0) {
-                int tmp = 0;
+                int tmp;
                 if (direction == 0) {   //  상
                     tmp = tx - speed;
                     speed = tmp <= 0 ? speed - (tx - 1) : 0;
@@ -134,15 +127,16 @@ public class Main {
             node.direction = direction;
             if (tempMap[tx][ty] != null) {
                 if (tempMap[tx][ty].size < size) {
-                    tempMap[tx][ty] = new Node(tx, ty, originSpeed, direction, size);
+                    tempMap[tx][ty] = node;
                 }
             } else {
-                tempMap[tx][ty] = new Node(tx, ty, originSpeed, direction, size);
+                tempMap[tx][ty] = node;
             }
         }
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= M; j++) {
                 map[i][j] = tempMap[i][j];
+                tempMap[i][j] = null;
             }
         }
     }
