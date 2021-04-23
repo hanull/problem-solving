@@ -40,49 +40,42 @@ public class Solution {
 
     private static int calculateTotalPoint() {
         int result = 0;
-        result += gear[0][0] == 0 ? 0 : 1;
-        result += gear[1][0] == 0 ? 0 : 2;
-        result += gear[2][0] == 0 ? 0 : 4;
-        result += gear[3][0] == 0 ? 0 : 8;
+        int mul = 1;
+        for (int i = 0; i < 4; i++) {
+            result += gear[i][0] == 0 ? 0 : mul;
+            mul *= 2;
+        }
         return result;
     }
 
     private static void go(int no, int direction) {
         checkMagnetFlag();
+        rotation(no, direction);
         if (no == 0) {
-            rotation(no, direction);
-            int nextNo = no + 1;
-            for (int i = 0; i < 3; i++) {
-                if (!magnetFlag[i]) break;
-                direction *= -1;
-                rotation(nextNo++, direction);
-            }
+            right(no, direction);
         } else if (no == 1 || no == 2) {
-            rotation(no, direction);
-            // left
-            int d = direction;
-            for (int i = no - 1; i >= 0; i--) {
-                if (!magnetFlag[i]) break;
-                d *= -1;
-                rotation(i, d);
-            }
-            // right
-            d = direction;
-            for (int i = no; i < 3; i++) {
-                if (!magnetFlag[i]) break;
-                d *= -1;
-                rotation(i + 1, d);
-            }
+            left(no, direction);
+            right(no, direction);
         } else {
-            rotation(no, direction);
-            for (int i = 2; i >= 0; i--) {
-                if (!magnetFlag[i]) break;
-                direction *= -1;
-                rotation(i, direction);
-            }
+            left(no, direction);
         }
     }
 
+    private static void left(int no, int direction) {
+        for (int i = no - 1; i >= 0; i--) {
+            if (!magnetFlag[i]) break;
+            direction *= -1;
+            rotation(i, direction);
+        }
+    }
+
+    private static void right(int no, int direction) {
+        for (int i = no; i < 3; i++) {
+            if (!magnetFlag[i]) break;
+            direction *= -1;
+            rotation(i + 1, direction);
+        }
+    }
     private static void rotation(int no, int direction) {
         if (direction == 1) {
             int tmp = gear[no][7];
@@ -108,6 +101,5 @@ public class Solution {
     private static int stoi(String input) {
         return Integer.parseInt(input);
     }
-
 
 }
