@@ -17,7 +17,7 @@ public class Main {
         }
     }
 
-    static PriorityQueue<Snowman> snowmanList = new PriorityQueue<>((Comparator.comparingInt(o -> o.height)));
+    static List<Snowman> snowmanList = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,21 +34,11 @@ public class Main {
             }
         }
         int answer = Integer.MAX_VALUE;
-        Snowman first = snowmanList.poll();
-        int tx = first.x;
-        int ty = first.y;
-        int th = first.height;
-        while (!snowmanList.isEmpty()) {
-            Snowman snowman = snowmanList.poll();
-            int nx = snowman.x;
-            int ny = snowman.y;
-            int nh = snowman.height;
-            if (isPossible(tx, ty, nx, ny)) {
-                answer = Math.min(answer, nh - th);
+        Collections.sort(snowmanList, (Comparator.comparingInt(o -> o.height)));
+        for (int i = 0; i < snowmanList.size() - 1; i++) {
+            if (isPossible(snowmanList.get(i).x, snowmanList.get(i).y, snowmanList.get(i + 1).x, snowmanList.get(i + 1).y)) {
+                answer = Math.min(answer, snowmanList.get(i + 1).height - snowmanList.get(i).height);
             }
-            tx = nx;
-            ty = ny;
-            th = nh;
         }
         System.out.println(answer);
     }
