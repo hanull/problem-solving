@@ -5,47 +5,40 @@ import java.util.Arrays;
 public class MergeSort {
 
     public static void main(String[] args) {
-        int[] list = {5, 3, 2, 4, 1};
-        System.out.println(Arrays.toString(list));
-        mergeSort(list, 0, list.length - 1);
-        System.out.println(Arrays.toString(list));
+        int[] array = {3, 2, 4, 5, 1};
+        mergeSort(array, 0, array.length - 1);
+        System.out.println(Arrays.toString(array));
     }
 
-    static void mergeSort(int[] list, int start, int end) {
-        if (start == end) return;
-
-        int mid = (start + end) / 2;
-        mergeSort(list, 0, mid);        // 왼쪽 집합
-        mergeSort(list, mid + 1, end);  // 오른쪽 집합
-
-        // 정렬된 두 집합을 이용하여 병합
-        merge(list, start, mid, end);
-
+    private static void mergeSort(int[] array, int start, int end) {
+        if (start < end) {
+            int mid = (start + end) / 2;
+            mergeSort(array, start, mid);
+            mergeSort(array, mid + 1, end);
+            merge(array, start, mid, end);
+        }
     }
 
-    static void merge(int[] list, int start, int mid, int end) {
-        int[] newArray = new int[end - start + 1];
-        int left = start;
-        int right = mid + 1;
+    private static void merge(int[] array, int start, int mid, int end) {
+        int[] left = Arrays.copyOfRange(array, start, mid + 1);
+        int[] right = Arrays.copyOfRange(array, mid + 1, end + 1);
 
-        int i = 0;
-        do {
-            if (list[left] < list[right]) {
-                newArray[i++] = list[left++];
+        int leftIndex = 0;
+        int rightIndex = 0;
+        int index = start;
+        while (leftIndex < left.length && rightIndex < right.length) {
+            if (left[leftIndex] < right[rightIndex]) {
+                array[index++] = left[leftIndex++];
             } else {
-                newArray[i++] = list[right++];
+                array[index++] = right[rightIndex++];
             }
-        } while (left <= mid && right <= end);
-
-        while (left <= mid) {
-            newArray[i++] = list[left++];
         }
-
-        while (right <= end) {
-            newArray[i++] = list[right++];
+        while (leftIndex < left.length) {
+            array[index++] = left[leftIndex++];
         }
-
-        System.arraycopy(newArray, 0, list, start, newArray.length);
+        while (rightIndex < right.length) {
+            array[index++] = right[rightIndex++];
+        }
     }
 
 }
