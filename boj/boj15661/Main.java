@@ -33,6 +33,10 @@ public class Main {
             if (isPossible()) {
                 min = Math.min(min, calculate());
             }
+            if (min == 0) {
+                System.out.println(min);
+                System.exit(0);
+            }
             return;
         }
 
@@ -58,20 +62,12 @@ public class Main {
         int totalA = 0, totalB = 0;
 
         for (int i = 0; i < N; i++) {
-            if (!visited[i]) continue;
-            for (int j = 0; j < N; j++) {
-                if (i == j) continue;
-                if (!visited[j]) continue;
-                totalA += power[i][j];
-            }
-        }
-
-        for (int i = 0; i < N; i++) {
-            if (visited[i]) continue;
-            for (int j = 0; j < N; j++) {
-                if (i == j) continue;
-                if (visited[j]) continue;
-                totalB += power[i][j];
+            for (int j = i + 1; j < N; j++) {
+                if (visited[i] && visited[j]) {
+                    totalA += power[i][j] + power[j][i];
+                } else if (!visited[i] && !visited[j]) {
+                    totalB += power[i][j] + power[j][i];
+                }
             }
         }
         return Math.abs(totalA - totalB);
