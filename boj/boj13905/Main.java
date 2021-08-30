@@ -42,8 +42,10 @@ public class Main {
             for (Node nextNode : vertexes[node.vertex]) {
                 int nextVertex = nextNode.vertex;
                 int nextWeight = nextNode.weight;
-                answer[nextVertex] = Math.max(answer[nextVertex], Math.min(answer[currentVertex], nextWeight));
-                if (!visited[nextVertex]) pq.add(new Node(nextVertex, nextWeight));
+                if (answer[nextVertex] < Math.min(answer[currentVertex], nextWeight)) {
+                    answer[nextVertex] = Math.min(answer[currentVertex], nextWeight);
+                    pq.add(new Node(nextVertex, nextWeight));
+                }
             }
         }
         return answer[end];
