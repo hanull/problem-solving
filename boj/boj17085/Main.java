@@ -83,33 +83,4 @@ public class Main {
             }
         }
     }
-
-    private static int getSize(int x, int y) {
-        int len = 0;
-        for (int i = x - 1; i >= 0; i--) {
-            if (map[i][y] == '.' || visited[i][y]) break;
-            len++;
-        }
-        int count = 0;
-        for (int i = x + 1; i < N; i++) {
-            if (map[i][y] == '.' || visited[i][y]) break;
-            count++;
-        }
-        len = Math.min(len, count);
-
-        count = 0;
-        for (int j = y + 1; j < M; j++) {
-            if (map[x][j] == '.' || visited[x][j]) break;
-            count++;
-        }
-        len = Math.min(len, count);
-
-        count = 0;
-        for (int j = y - 1; j >= 0; j--) {
-            if (map[x][j] == '.' || visited[x][j]) break;
-            count++;
-        }
-        len = Math.min(len, count);
-        return len;
-    }
 }
