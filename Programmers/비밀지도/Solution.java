@@ -1,5 +1,7 @@
 package Programmers.비밀지도;
 
+import java.util.*;
+
 public class Solution {
 
     public String[] solution(int n, int[] arr1, int[] arr2) {
@@ -37,5 +39,25 @@ public class Solution {
                 }
             }
         }
+    }
+
+    public String[] solution2(int n, int[] arr1, int[] arr2) {
+        String[] answer = new String[n];
+        String temp;
+        for (int i = 0; i < n; i++) {
+            String binary = Integer.toBinaryString(arr1[i] | arr2[i]);
+            temp = String.format("%16s", binary);
+            temp = temp.substring(16 - n);
+            temp = temp.replaceAll("1", "#");
+            temp = temp.replaceAll("0", " ");
+            answer[i] = temp;
+        }
+        return answer;
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        System.out.println(
+                Arrays.toString(sol.solution2(5, new int[]{9, 20, 28, 18, 11}, new int[]{30, 1, 21, 17, 28})));
     }
 }
