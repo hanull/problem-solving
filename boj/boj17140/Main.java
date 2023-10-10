@@ -10,12 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-/*
-4 4 4
-3 3 3
-3 3 3
-3 3 3
- */
 public class Main {
 
     static int[][] arr;

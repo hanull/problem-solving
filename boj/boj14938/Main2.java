@@ -13,15 +13,15 @@ public class Main2 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = stoi(st.nextToken());
-        int M = stoi(st.nextToken());
-        int R = stoi(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int R = Integer.parseInt(st.nextToken());
         int[] itemCount = new int[N + 1];
         int[][] distance = new int[N + 1][N + 1];
 
         st = new StringTokenizer(br.readLine());
         for (int i = 1; i <= N; i++) {
-            itemCount[i] = stoi(st.nextToken());
+            itemCount[i] = Integer.parseInt(st.nextToken());
         }
         for (int i = 1; i <= N; i++) {
             Arrays.fill(distance[i], MAX);
@@ -29,9 +29,9 @@ public class Main2 {
         }
         for (int i = 0; i < R; i++) {
             st = new StringTokenizer(br.readLine());
-            int from = stoi(st.nextToken());
-            int to = stoi(st.nextToken());
-            int dist = stoi(st.nextToken());
+            int from = Integer.parseInt(st.nextToken());
+            int to = Integer.parseInt(st.nextToken());
+            int dist = Integer.parseInt(st.nextToken());
             distance[from][to] = dist;
             distance[to][from] = dist;
         }
@@ -55,11 +55,5 @@ public class Main2 {
             maxItemCount = Math.max(maxItemCount, total);
         }
         System.out.println(maxItemCount);
-
     }
-
-    static int stoi(String input) {
-        return Integer.parseInt(input);
-    }
-
 }
